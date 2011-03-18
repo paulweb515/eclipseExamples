@@ -1,0 +1,112 @@
+<command categoryId="org.eclipse.ui.category.window"
+      defaultHandler="org.eclipse.example.commands.SayHiHandler"
+      id="org.eclipse.example.commands.hello"
+      name="Say Hi">
+</command>
+
+<command categoryId="org.eclipse.ui.category.edit"
+      defaultHandler="org.eclipse.example.commands.KeepCountHandler"
+      id="org.eclipse.example.commands.count"
+      name="Keep Count">
+   <state class="org.eclipse.jface.menus.TextState"
+         id="keepCount.count"/>
+</command>
+
+<key commandId="org.eclipse.example.commands.hello"
+      contextId="org.eclipse.ui.contexts.window"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+      sequence="CTRL+5 H">
+</key>
+
+<menuContribution locationURI="menu:window?after=additions">
+   <command commandId="org.eclipse.example.commands.hello"
+         style="push"/>
+</menuContribution>
+
+<serviceFactory factoryClass="org.eclipse.example.commands.CountServiceFactory">
+   <service serviceClass="org.eclipse.example.commands.ICountService"/>
+</serviceFactory>
+
+<sourceProvider provider="org.eclipse.example.commands.MyCountProvider">
+   <variable name="currentCount"
+         priorityLevel="activeContexts"/>
+</sourceProvider>
+
+
+<command categoryId="org.eclipse.ui.category.views"
+      defaultHandler="org.eclipse.example.commands.ShowLabelHandler"
+      id="org.eclipse.example.commands.showLabel"
+      name="Show Label">
+   <commandParameter id="org.eclipse.example.commands.viewId"
+         name="Label View Id"
+         optional="true"
+         values="org.eclipse.example.commands.ShowViewValues"/>
+</command>
+
+<command categoryId="org.eclipse.ui.category.edit"
+      defaultHandler="org.eclipse.example.commands.MonitorCountHandler"
+      id="org.eclipse.example.commands.monitorCount"
+      name="Monitor Count">
+   <state class="org.eclipse.ui.handlers.RegistryToggleState:false"
+         id="org.eclipse.ui.commands.toggleState"/>
+</command>
+
+<command defaultHandler="org.eclipse.example.commands.ViewPageHandler" 
+		id="org.eclipse.example.commands.viewPage"
+		name="View Page">
+	<commandParameter id="org.eclipse.ui.commands.radioStateParameter" 
+			name="State" optional="false"/>
+	<state class="org.eclipse.ui.handlers.RadioState:page"
+			id="org.eclipse.ui.commands.radioState"/>
+</command>
+
+
+<command id="org.eclipse.example.commands.perspectiveList"
+      commandId="org.eclipse.example.commands.setPerspective"
+      icon="images/editor_area.gif"
+      style="pulldown">
+</command>
+
+<menuContribution allPopups="false"
+      locationURI="menu:org.eclipse.example.commands.perspectiveList">
+// fill in dropdown
+</menuContribution>
+
+
+<menuContribution locationURI="menu:org.eclipse.example.commands.perspectiveList">
+   <dynamic class="org.eclipse.example.commands.DynamicPerspectiveList"
+         id="org.eclipse.example.commands.perspectiveList.dynamic"/>
+   <separator name="other"
+         visible="true"/>
+// more contributions
+</menuContribution>
+
+<with variable="activeMenuSelection">
+   <iterate ifEmpty="false">
+      <adapt type="org.eclipse.core.resources.IResource">
+         <test property="org.eclipse.core.resources.contentTypeId"
+            args="kindOf"
+            value="org.eclipse.core.runtime.text"/>
+      </adapt>
+   </iterate>
+</with>
+
+<menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=org.eclipse.example.commands.toolbar">
+   <toolbar id="org.eclipse.example.commands.searchToolbar"
+         label="Command Search Toolbar">
+      <control id="org.eclipse.example.commands.search"
+            class="org.eclipse.example.commands.SearchContribution"/>
+   </toolbar>
+</menuContribution>
+
+
+<propertyTester
+     id="org.eclipse.core.resources.filePropertyTester"
+     class="org.eclipse.core.internal.propertytester.FilePropertyTester"
+     namespace="org.eclipse.core.resources"
+     properties="contentTypeId"
+     type="org.eclipse.core.resources.IFile"/>
+
+<test property="org.eclipse.core.resources.contentTypeId"
+   args="kindOf"
+   value="org.eclipse.core.runtime.text"/>
