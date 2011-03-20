@@ -1,2 +1,11 @@
 To contain example plugins for commands talks at EclipseCon 2011
 
+org.eclipse.example.commands - 3.x command patterns
+Draft presentation, subject to change:
+http://www.eclipse.org/eclipse/platform-ui/econ2011/commandPatterns2011_v01.odp
+
+org.eclipse.example.e4.commands - Understanding who does what
+Draft presentation, subject to change:
+http://www.eclipse.org/eclipse/platform-ui/econ2011/e4Commands_v01.odp
+
+
