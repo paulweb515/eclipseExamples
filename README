@@ -1,10 +1,18 @@
 To contain example plugins for commands talks at EclipseCon 2011
 
-org.eclipse.example.commands - 3.x command patterns
+Talk: 3.x command patterns
+org.eclipse.example.commands - run in 3.7 M6
+
 Draft presentation, subject to change:
 http://www.eclipse.org/eclipse/platform-ui/econ2011/commandPatterns2011_v01.odp
 
-org.eclipse.example.e4.commands - Understanding who does what
+
+Talk: Eclipse 4 commands: Understanding who does what
+org.eclipse.example.e4.commands - run in 4.1 M6
+You need org.eclipse.e4.ui.bindings from HEAD to avoid an NPE
+anonymous@dev.eclipse.org:/cvsroot/eclipse
+e4/org.eclipse.e4.ui/bundles/org.eclipse.e4.ui.bindings
+
 Draft presentation, subject to change:
 http://www.eclipse.org/eclipse/platform-ui/econ2011/e4Commands_v01.odp
 
