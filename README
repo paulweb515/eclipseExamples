@@ -3,7 +3,7 @@ To contain example plugins for commands talks at EclipseCon 2011
 Talk: 3.x command patterns
 org.eclipse.example.commands - run in 3.7 M6
 
-Draft presentation, subject to change:
+Presentation:
 http://www.eclipse.org/eclipse/platform-ui/econ2011/commandPatterns2011_v01.odp
 
 
@@ -13,7 +13,7 @@ You need org.eclipse.e4.ui.bindings from HEAD to avoid an NPE
 anonymous@dev.eclipse.org:/cvsroot/eclipse
 e4/org.eclipse.e4.ui/bundles/org.eclipse.e4.ui.bindings
 
-Draft presentation, subject to change:
+Presentation:
 http://www.eclipse.org/eclipse/platform-ui/econ2011/e4Commands_v01.odp
 
 
