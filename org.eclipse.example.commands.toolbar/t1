@@ -1,0 +1,7 @@
+src/org/eclipse/example/commands/toolbar/Activator.java
+src/org/eclipse/example/commands/toolbar/CurrentSetContribution.java
+src/org/eclipse/example/commands/toolbar/DeliverHandler.java
+src/org/eclipse/example/commands/toolbar/ImageManager.java
+src/org/eclipse/example/commands/toolbar/PendingHandler.java
+src/org/eclipse/example/commands/toolbar/RebaseHandler.java
+src/org/eclipse/example/commands/toolbar/SetHandler.java
