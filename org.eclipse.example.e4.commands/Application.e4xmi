@@ -3,12 +3,12 @@
   <children xsi:type="basic:Window" xmi:id="_oWS58FMQEeC5gOunYT9kxA" elementId="com.eclipse.example.e4.mainWindow" selectedElement="_-b-XoFMQEeC5gOunYT9kxA" label="Main Window" bindingContexts="_rg44kFMOEeC5gOunYT9kxA" width="400" height="300">
     <children xsi:type="basic:PartSashContainer" xmi:id="_-b-XoFMQEeC5gOunYT9kxA" elementId="mainSplit" selectedElement="_CNhWoFMREeC5gOunYT9kxA" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_CNhWoFMREeC5gOunYT9kxA" elementId="nav" selectedElement="_OWeFcFMREeC5gOunYT9kxA">
-        <children xsi:type="basic:Part" xmi:id="_OWeFcFMREeC5gOunYT9kxA" elementId="com.eclipse.example.e4.commands.nav" contributionURI="platform:/plugin/org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.Navigator" label="Nav">
-          <handlers xmi:id="_1w7_QFPCEeCxXuGVlQ9g1A" elementId="nav.reset" contributionURI="platform:/plugin/org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.RestNavHandler" command="_M5QqIFMdEeC5gOunYT9kxA"/>
+        <children xsi:type="basic:Part" xmi:id="_OWeFcFMREeC5gOunYT9kxA" elementId="com.eclipse.example.e4.commands.nav" contributionURI="bundleclass://org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.Navigator" label="Nav">
+          <handlers xmi:id="_1w7_QFPCEeCxXuGVlQ9g1A" elementId="nav.reset" contributionURI="bundleclass://org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.RestNavHandler" command="_M5QqIFMdEeC5gOunYT9kxA"/>
         </children>
       </children>
       <children xsi:type="basic:PartStack" xmi:id="_C15lQFMREeC5gOunYT9kxA" elementId="edit">
-        <children xsi:type="basic:Part" xmi:id="_V6AvYFMREeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.info" contributionURI="platform:/plugin/org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.InfoView" label="Information"/>
+        <children xsi:type="basic:Part" xmi:id="_V6AvYFMREeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.info" contributionURI="bundleclass://org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.InfoView" label="Information"/>
       </children>
     </children>
     <mainMenu xmi:id="_ycHTYFMQEeC5gOunYT9kxA">
@@ -21,8 +21,8 @@
       </children>
     </mainMenu>
   </children>
-  <handlers xmi:id="_4B1QoFMOEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.exitHandler" contributionURI="platform:/plugin/org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.ExitHandler" command="_y4qXYFMOEeC5gOunYT9kxA"/>
-  <handlers xmi:id="_-VXtcFMdEeC5gOunYT9kxA" elementId="handler.showPart" contributionURI="platform:/plugin/org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.ShowPartHandler" command="_frL4EFMdEeC5gOunYT9kxA"/>
+  <handlers xmi:id="_4B1QoFMOEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.exitHandler" contributionURI="bundleclass://org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.ExitHandler" command="_y4qXYFMOEeC5gOunYT9kxA"/>
+  <handlers xmi:id="_-VXtcFMdEeC5gOunYT9kxA" elementId="handler.showPart" contributionURI="bundleclass://org.eclipse.example.e4.commands/org.eclipse.example.e4.commands.ShowPartHandler" command="_frL4EFMdEeC5gOunYT9kxA"/>
   <rootContext xmi:id="_io3H8FMOEeC5gOunYT9kxA" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialogs and Windows">
     <children xmi:id="_om7B0FMOEeC5gOunYT9kxA" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
     <children xmi:id="_rg44kFMOEeC5gOunYT9kxA" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
@@ -30,12 +30,12 @@
   <commands xmi:id="_y4qXYFMOEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.exit" commandName="Exit" category="_R1nPYFMdEeC5gOunYT9kxA"/>
   <commands xmi:id="_M5QqIFMdEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.reset" commandName="Reset" category="_R1nPYFMdEeC5gOunYT9kxA"/>
   <commands xmi:id="_frL4EFMdEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.commands.showPart" commandName="Show Part" category="_dU-1sFMdEeC5gOunYT9kxA"/>
-  <addons xmi:id="_XGB3wPZlEd-XstlTZ6nTXg" elementId="org.eclipse.e4.core.commands.service" contributionURI="platform:/plugin/org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
-  <addons xmi:id="_XGB3wPZlEd-XstlTZ6nTXh" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="platform:/plugin/org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
-  <addons xmi:id="_XGB3wPZlEd-XstlTZ6nTXi" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="platform:/plugin/org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
-  <addons xmi:id="_LK0NgPZmEd-XstlTZ6nTXj" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="platform:/plugin/org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
-  <addons xmi:id="_LK0NgPZmEd-XstlTZ6nTXk" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="platform:/plugin/org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
-  <addons xmi:id="_LK0NgPZmEd-XstlTZ6nTXl" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="platform:/plugin/org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+  <addons xmi:id="_XGB3wPZlEd-XstlTZ6nTXg" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
+  <addons xmi:id="_XGB3wPZlEd-XstlTZ6nTXh" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
+  <addons xmi:id="_XGB3wPZlEd-XstlTZ6nTXi" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
+  <addons xmi:id="_LK0NgPZmEd-XstlTZ6nTXj" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
+  <addons xmi:id="_LK0NgPZmEd-XstlTZ6nTXk" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
+  <addons xmi:id="_LK0NgPZmEd-XstlTZ6nTXl" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
   <categories xmi:id="_R1nPYFMdEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.file" name="File"/>
   <categories xmi:id="_dU-1sFMdEeC5gOunYT9kxA" elementId="org.eclipse.example.e4.view" name="Views"/>
 </application:Application>
