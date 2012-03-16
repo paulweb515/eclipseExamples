@@ -97,6 +97,20 @@
                commandId="org.eclipse.example.commands.hello"
                style="push">
          </command>
+         <command
+               commandId="org.eclipse.example.commands.showLabel"
+               mnemonic="S"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="currentCount">
+                  <equals
+                        value="2">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
