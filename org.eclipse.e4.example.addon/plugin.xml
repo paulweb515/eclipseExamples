@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="addOnProcessor"
+         point="org.eclipse.e4.workbench.model">
+      <processor
+            beforefragment="true"
+            class="org.eclipse.e4.example.addon.AddOnProcessor">
+      </processor>
+   </extension>
+
+</plugin>
