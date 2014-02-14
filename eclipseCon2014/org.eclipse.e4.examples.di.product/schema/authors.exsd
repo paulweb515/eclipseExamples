@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.e4.examples.di.product" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.e4.examples.di.product" id="authors" name="Authors"/>
+      </appinfo>
+      <documentation>
+         Give credit to plugin authors.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="author"/>
+         </sequence>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="author">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="companyName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+
+
+
+
+
+</schema>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension
+         point="org.eclipse.e4.examples.di.product.authors">
+      <author
+            companyName="Cyberdine Systems, Inc"
+            name="Skynet">
+      </author>
+   </extension>
+
+</plugin>

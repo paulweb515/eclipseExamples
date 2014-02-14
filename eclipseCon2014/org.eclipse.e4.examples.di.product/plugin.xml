@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension-point id="authors" name="Authors" schema="schema/authors.exsd"/>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            name="org.eclipse.e4.examples.di.product"
+            application="org.eclipse.e4.ui.workbench.swt.E4Application">
+         <property
+               name="applicationCSS"
+               value="platform:/plugin/org.eclipse.e4.examples.di.product/css/default.css">
+         </property>
+         <property
+               name="appName"
+               value="org.eclipse.e4.examples.di.product">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.e4.examples.di.product.authors">
+      <author
+            companyName="IBM Canada"
+            name="Paul Webster">
+      </author>
+   </extension>
+
+</plugin>
