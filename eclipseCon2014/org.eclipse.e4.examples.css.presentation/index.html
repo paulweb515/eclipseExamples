@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Xtreme Eclipse4: A tutorial on advanced usages of the Eclipse4 platform</title>
+		<title>CSS Styling tips for an RCP app</title>
 
 		<meta name="description" content="Now that the new Eclipse platform is more than one year old, advanced Eclipse 4 applications are beginning to surface and many more remain unseen within corporate walls. To keep you on the technical bleeding edge of what is happening and what will happen we will examine three important aspects of the platform development">
 		<meta name="author" content="Paul Webster">
@@ -24,10 +24,18 @@
 		<script>
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
+		
+		<style>
+			table.wikiTable {
+				font-size:75%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			table.wikiTable, table.wikiTable th, table.wikiTable td {
+				border: 1px solid white; 
+			}
+		</style>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
 	</head>
 
 	<body>
@@ -37,16 +45,390 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Xtreme Eclipse4</h1>
-					<h3>A tutorial on advanced usages of the Eclipse4 platform</h1>
-					<h3>Customizing dependency injection behavior with custom annotations</h3>
+					<h1>CSS Styling</h1>
+					<h3>Tips for an RCP app</h3>
 					<p>
-						<small>Created by <a href="http://http://pweclipse.blogspot.com">Paul Webster</a> / <a href="http://twitter.com/paulweb515">@paulweb515</a></small>
+						<small>Created by Bogdan Gheorge / IBM Canada</small> <br/>
+						<small>Created by <a href="http://http://pweclipse.blogspot.com">Paul Webster</a> / IBM Canada / <a href="http://twitter.com/paulweb515">@paulweb515</a></small>
 					</p>
+					<aside class="notes">
+						Introduction, who am I, etc.
+						Talk about Styling Engine.
+						Hack a little code. Creat a completely different look for eclipse.
+					</aside>
 				</section>
 
 				<section>
-					<h2>Eclipse core.di</h2>
+					<h3>What is the Styling Engine?</h3>
+<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+#org-eclipse-ui-editorss {
+   swt-tab-renderer: url('org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+   swt-unselected-tabs-color: #D6DDE5 #D6DDE5 #D6DDE5 100% 100%;
+   swt-outer-keyline-color: #D6DDE5;
+   swt-inner-keyline-color: #D6DDE5;
+   swt-tab-outline: #D6DDE5;
+   color: #D6DDE5;
+   swt-tab-height: 8px;
+   padding: 0px 5px 7px;
+}
+</code></pre>
+					<aside class="notes">
+						Styling engine is the cornerstone.
+						Allows users to control the look of the UI based on selectors and prop values.
+						Selectors specify which widgets to apply to
+						prop values what you want styled in the widgets
+						We want a simpler mechanism to control the look adn feel of an eclipse application.
+						Make it easy to switch around the look of the app without  writing a lot of code.
+						Also mention: Although our implementation targets SWT widgets, the core
+						engine is headless and could be adapted.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Anatomy of a Styling Engine</h3>
+					<img src="images/AnatomyOfAStylingEngine.png" alt="Styling engine reading CSS sheets"/>
+					<aside class="notes">
+						- Engine is created
+						- it's handed a stylesheet to parse
+						- engine creates the CSSParse, apache batik, and parses the style sheet
+						- follows any import refs
+						- it hands back a bunch of CSSRules (CSSStyleRules) to the CSS Egnine
+						- each rule reps one style block.
+						- each rule can have one or more selectors, and one or more properties
+						- the CSS engine then gets all of the shells from the display
+						- it applyeStyles(Shell) on each one, that's where  the work is done
+						- example: All composites have 10px and background: red
+						- once the style decoration is calculated with all of the properties, the property handlers are called.
+						- property handlers know which SWT methods to call
+						
+					</aside>
+				</section>
+
+				<section>
+					<h3>Styling Selectors</h3>
+					<ul>
+						<li>SWT widget type {Shell, Button, Table}</li>
+						<li>Class name {.topShell, .leftTrim, .active}</li>
+						<li>ID name {#PerspectiveSwitcher}</li>
+						<li>Model name {.MPartStack, .MTrimBar}</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>CSS Cascade</h3>
+					<img src="images/CSSCascades.png" alt="How CSS sheets cascade"/>
+				</section>
+
+				<section>
+					<h3>Specificity</h3>
+					<ul>
+						<li>Every element has a value of 1</li>
+						<li>Every class has a value of 10</li>
+						<li>Every id has a value of 100</li>
+						<li>Add them up for the specificity value</li>
+						<li>In case of a clash, higher specificty value wins</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Specificity Calculator</h3>
+					<img src="images/SpecificityCalcluator.png" alt="Calculating values for yourself"/>
+				</section>
+
+				<section>
+					<h3>Property Handlers: Control</h3>
+<table class="wikiTable">
+<tr>
+<th>SWT Method</th>
+<th>CSS Property Name</th>
+<th>CSS Example</th>
+</tr>
+<tr>
+<td>setBackground(Color)</td>
+<td>background-color</td>
+<td>Button { background-color: #FF0000 }</td>
+</tr>
+<tr>
+<td>(vertical gradient)</td>
+<td>background-color</td>
+<td>Button { background-color: #FF0000 #00FF00 100% }</td>
+</tr>
+<tr>
+<td>(horizontal gradient)</td>
+<td>background-color</td>
+<td>Button { background-color: #FF0000 #00FF00 100% false }</td>
+</tr>
+<tr>
+<td>setBackgroundImage(Image)</td>
+<td>background-image</td>
+<td>Button { background-image: <i>some url</i> }</td>
+</tr>
+<tr>
+<td></td>
+<td>border-color</td>
+<td>Button { border-color: #FF0000; }</td>
+</tr>
+<tr>
+<td></td>
+<td>border-width</td>
+<td>Button { border-width: 3 }</td>
+</tr>
+<tr>
+<td></td>
+<td>border-style</td>
+<td>Button { border-style: dotted }</td>
+</tr>
+</table>
+				</section>
+
+				<section>
+					<h3>Property Handlers: CTabFolder</h3>
+<table class="wikiTable">
+<tr>
+<th>SWT Method</th>
+<th>CSS Property Name</th>
+<th>CSS Example</th>
+</tr>
+<tr>
+<td>setBorderVisible(boolean)</td>
+<td>border-visible</td>
+<td>CTabFolder { border-visible: true }</td>
+</tr>
+<tr>
+<td>setMaximized(boolean)</td>
+<td>swt-maximized</td>
+<td>CTabFolder { swt-maximized: true }</td>
+</tr>
+<tr>
+<td>setMinimized(boolean)</td>
+<td>swt-minimized</td>
+<td>CTabFolder { swt-minimized: true }</td>
+</tr>
+<tr>
+<td>setMaximizeVisible(boolean)</td>
+<td>swt-maximize-visible</td>
+<td>CTabFolder { swt-maximize-visible: true }</td>
+</tr>
+<tr>
+<td>setMinimizeVisible(boolean)</td>
+<td>swt-minimize-visible</td>
+<td>CTabFolder { swt-minimize-visible: true }</td>
+</tr>
+<tr>
+<td>setMRUVisible(boolean)</td>
+<td>swt-mru-visible</td>
+<td>CTabFolder { swt-mru-visible: true }</td>
+</tr>
+<tr>
+<td>setSimple(boolean)</td>
+<td>swt-simple</td>
+<td>CTabFolder { swt-simple: true }</td>
+</tr>
+<tr>
+<td>setSingle(boolean)</td>
+<td>swt-single</td>
+<td>CTabFolder { swt-single: true }</td>
+</tr>
+</table>
+				</section>
+
+				<section>
+					<h3>Property Handlers: Label</h3>
+<table class="wikiTable">
+<tr>
+<th>SWT Method</th>
+<th>CSS Property Name</th>
+<th>CSS Example</th>
+</tr>
+<tr>
+<td>setAlignment(int)</td>
+<td>swt-alignment</td>
+<td><pre>Label {
+  swt-alignment: center;
+}</pre></td>
+</tr>
+</table>
+<p>Examples can be found at <br/> <a href="https://wiki.eclipse.org/E4/CSS/SWT_Mapping">https://wiki.eclipse.org/E4/CSS/SWT_Mapping</a></p>
+				</section>
+
+				<section>
+					<h3>Where is the Code?</h3>
+					<ul>
+						<li>All code for the CSS engine can be found in one of the following packages:</li>
+						<li>org.eclipse.e4.ui.css.core</li>
+						<li>org.eclipse.e4.ui.css.swt</li>
+						<li>Add them up for the specificity value</li>
+						<li>org.eclipse.e4.ui.css.swt.theme</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>CSS vs 3.x Themes</h3>
+					<img src="images/example3xThemes.png" alt="Different light and dark Eclipse 3.x themes"/>
+				</section>
+
+				<section>
+					<h3>Themes for your Application</h3>
+					<ul>
+						<li></li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Roger's Themes</h3>
+					<ul>
+						<li><a href="http://eclipsecolorthemes.org/">http://eclipsecolorthemes.org/</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Roger's Themes</h4>
+					<img src="images/RogersThemes.png" alt="Downloadable themes for Eclipse"/>
+				</section>
+
+				<section>
+					<h3>Create a Theme - Step 1</h3>
+					<ul>
+						<li>Create a new Eclipse Plugin Project</li>
+						<li>Generate an Activator</li>
+						<li>No to 3.x rich client application</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Create a Theme - Step 2</h3>
+					<ul>
+						<li>Create a folder</li>
+						<li>Write a stylesheet</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Create a Theme - Step 3</h3>
+					<ul>
+						<li>Configure the plugin project</li>
+						<li>Fill out the extension point</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Create a Theme - Step 4</h3>
+					<ul>
+						<li>Export as a Deployable plug-in and fragment</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Jeeyul's Chrome Theme</h3>
+					<ul>
+						<li><a href="https://github.com/jeeeyul/eclipse-themes/">https://github.com/jeeeyul/eclipse-themes/</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Jeeyul's Chrome Theme</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>CSS Tools</h3>
+					<ul>
+						<li>Editor (XText based)</li>
+						<li>Inspector</li>
+						<li>Editor (Orion based - coming soon)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>CSS File Editor</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>CSS Spy</h3>
+					<ul>
+						<li>Inspector</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>CSS Scratchpad</h3>
+					<ul>
+						<li>Modify CSS on the fly</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Styling in RCP</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Native OS Colors</h3>
+					<p>Can be found as constants in the <code>org.eclipse.swt.SWT</code> class.</p>
+<table class="wikiTable" style="font-size:60%;">
+<tr>
+<th>SWT Color Constant</th>
+<th>Description</th>
+</tr>
+<tr><td>COLOR-WIDGET-DARK-SHADOW</td><td>System color used to paint dark shadow areas (value is 17).</td></tr>
+<tr><td>COLOR-WIDGET-NORMAL-SHADOW</td><td>System color used to paint normal shadow areas (value is 18).</td></tr>
+<tr><td>COLOR-WIDGET-LIGHT-SHADOW</td><td>System color used to paint light shadow areas (value is 19).</td></tr>
+<tr><td>COLOR-WIDGET-HIGHLIGHT-SHADOW</td><td>System color used to paint highlight shadow areas (value is 20).</td></tr>
+<tr><td>COLOR-WIDGET-FOREGROUND</td><td>System color used to paint foreground areas (value is 21).</td></tr>
+<tr><td>COLOR-WIDGET-BACKGROUND</td><td>System color used to paint background areas (value is 22).</td></tr>
+<tr><td>COLOR-WIDGET-BORDER</td><td>System color used to paint border areas (value is 23).</td></tr>
+<tr><td>COLOR-LIST-FOREGROUND</td><td>System color used to paint list foreground areas (value is 24).</td></tr>
+<tr><td>COLOR-LIST-BACKGROUND</td><td>System color used to paint list background areas (value is 25).</td></tr>
+<tr><td>COLOR-LIST-SELECTION</td><td>System color used to paint list selection background areas (value is 26).</td></tr>
+<tr><td>COLOR-LIST-SELECTION-TEXT</td><td>System color used to paint list selected text (value is 27).</td></tr>
+<tr><td>COLOR-INFO-FOREGROUND</td><td>System color used to paint tooltip text (value is 28).</td></tr>
+<tr><td>COLOR-INFO-BACKGROUND</td><td>System color used to paint tooltip background areas (value is 29).</td></tr>
+<tr><td>COLOR-TITLE-FOREGROUND</td><td>System color used to paint title text (value is 30).</td></tr>
+<tr><td>COLOR-TITLE-BACKGROUND</td><td>System color used to paint title background areas (value is 31).</td></tr>
+<tr><td>COLOR-TITLE-BACKGROUND-GRADIENT</td><td>System color used to paint title background gradient (value is 32).</td></tr>
+<tr><td>COLOR-TITLE-INACTIVE-FOREGROUND</td><td>System color used to paint inactive title text (value is 33).</td></tr>
+<tr><td>COLOR-TITLE-INACTIVE-BACKGROUND</td><td>System color used to paint inactive title background areas (value is 34).</td></tr>
+<tr><td>COLOR-TITLE-INACTIVE-BACKGROUND-GRADIENT</td><td>System color used to paint inactive title background gradient (value is 35).</td></tr>
+</table>
+				</section>
+
+				<section>
+					<h3>Jeeyul's Chrome Theme</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Jeeyul's Chrome Theme</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Jeeyul's Chrome Theme</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Jeeyul's Chrome Theme</h3>
+					<ul>
+						<li>Able to view and add custom CSS</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Eclipse core.di</h3>
 					<ol>
 						<li>Is tied to the runtime <code>IEclipseContext</code> hierarchy</li>
 						<li>Can access both data and services</li>
@@ -84,7 +466,7 @@ TestClass testObject = ContextInjectionFactory.make(TestClass.class,
 		<script src="js/reveal.min.js"></script>
 
 		<script>
-
+			/*global Reveal hljs*/
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
