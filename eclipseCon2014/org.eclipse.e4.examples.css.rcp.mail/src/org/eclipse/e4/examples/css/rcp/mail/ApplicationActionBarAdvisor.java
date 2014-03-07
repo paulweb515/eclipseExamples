@@ -32,6 +32,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private IWorkbenchAction newWindowAction;
     private OpenViewAction openViewAction;
     private Action messagePopupAction;
+	private IWorkbenchAction openPreferencesAction;
     
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
@@ -59,15 +60,20 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         
         messagePopupAction = new MessagePopupAction("Open Message", window);
         register(messagePopupAction);
+        
+        openPreferencesAction = ActionFactory.PREFERENCES.create(window);
+        register(openPreferencesAction);
     }
     
     protected void fillMenuBar(IMenuManager menuBar) {
         MenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
         MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
+        MenuManager windowMenu = new MenuManager("&Window", IWorkbenchActionConstants.M_WINDOW);
         
         menuBar.add(fileMenu);
         // Add a group marker indicating where action set menus will appear.
         menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+        menuBar.add(windowMenu);
         menuBar.add(helpMenu);
         
         // File
@@ -77,6 +83,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         fileMenu.add(openViewAction);
         fileMenu.add(new Separator());
         fileMenu.add(exitAction);
+        
+        // Window
+        windowMenu.add(openPreferencesAction);
         
         // Help
         helpMenu.add(aboutAction);

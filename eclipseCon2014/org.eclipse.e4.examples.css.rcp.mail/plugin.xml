@@ -123,5 +123,17 @@
             value="240,255,240">
       </colorDefinition>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <!--page
+            name="%PreferencePages.Views"
+            class="org.eclipse.ui.ExtensionFactory:appearancePreferencePage"
+            id="org.eclipse.ui.preferencePages.Views">
+      </page-->
+      <page
+            name="Colors and Fonts"
+            class="org.eclipse.ui.ExtensionFactory:colorsAndFontsPreferencePage"
+            id="org.eclipse.ui.preferencePages.ColorsAndFonts">
+      </page>
+   </extension>
 </plugin>
