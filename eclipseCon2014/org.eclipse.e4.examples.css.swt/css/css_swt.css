@@ -1,0 +1,6 @@
+@import url("platform:/plugin/org.eclipse.ui.themes/css/e4_default_gtk.css");
+
+#org-eclipse-e4-examples-css-swt-views-SampleView Tree {
+  color: white;
+  background-color: blue;
+}

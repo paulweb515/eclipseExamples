@@ -1,0 +1,22 @@
+@import url("platform:/plugin/org.eclipse.ui.themes/css/e4_default_gtk.css");
+
+.infoHeader {
+  background-color: #E2E2E2;
+}
+
+#org-eclipse-e4-examples-css-rcp-mail-view Composite {
+  background-color: #FAEBD7;
+}
+
+#org-eclipse-e4-examples-css-rcp-mail-view Text {
+  background-color: #E0FFFF;
+}
+
+#org-eclipse-e4-examples-css-rcp-mail-navigationView Tree {
+  background-color: '#org-eclipse-e4-examples-css-rcp-mail-honeyDew';
+}
+
+.MTrimBar .stretch, .MTrimBar .MToolBar {
+  color: white;
+  background-color: blue;
+}

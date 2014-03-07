@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="org.eclipse.e4.examples.css.rcp.mail.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="RCP Perspective"
+            class="org.eclipse.e4.examples.css.rcp.mail.Perspective"
+            id="org.eclipse.e4.examples.css.rcp.mail.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="Message"
+            allowMultiple="true"
+            icon="icons/sample2.gif"
+            class="org.eclipse.e4.examples.css.rcp.mail.View"
+            id="org.eclipse.e4.examples.css.rcp.mail.view">
+      </view>
+      <view
+            name="Mailboxes"
+            allowMultiple="true"
+            icon="icons/sample3.gif"
+            class="org.eclipse.e4.examples.css.rcp.mail.NavigationView"
+            id="org.eclipse.e4.examples.css.rcp.mail.navigationView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Mail"
+            id="org.eclipse.e4.examples.css.rcp.mail.category">
+      </category>
+      <command
+            name="Open Mailbox"
+            description="Opens a mailbox"
+            categoryId="org.eclipse.e4.examples.css.rcp.mail.category"
+            id="org.eclipse.e4.examples.css.rcp.mail.open">
+      </command>
+      <command
+            name="Open Message Dialog"
+            description="Open a message dialog"
+            categoryId="org.eclipse.e4.examples.css.rcp.mail.category"
+            id="org.eclipse.e4.examples.css.rcp.mail.openMessage">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.eclipse.e4.examples.css.rcp.mail.open"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+O">
+      </key>
+      <key
+            commandId="org.eclipse.e4.examples.css.rcp.mail.openMessage"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+M">
+      </key>
+      <key
+            commandId="org.eclipse.ui.file.exit"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+SHIFT+Q">
+      </key>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.e4.examples.css.rcp.mail.application"
+            name="RCP Product">
+         <property
+               name="aboutText"
+               value="RCP Mail template created by PDE">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/sample2.gif">
+         </property>
+         <property
+               name="aboutImage"
+               value="product_lg.gif">
+         </property>
+         <property
+               name="appName"
+               value="RCP Product">
+         </property>
+		  <property
+				name="cssTheme"
+				value="org.eclipse.e4.examples.css.rcp.mail">
+		  </property>
+		  <property
+				name="applicationCSSResources"
+	        	value="platform:/plugin/org.eclipse.ui.themes/images/">
+		  </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.e4.ui.css.swt.theme">
+      <theme
+            basestylesheeturi="css/rcp_mail.css"
+            id="org.eclipse.e4.examples.css.rcp.mail"
+            label="RCP Mail CSS">
+      </theme>
+   </extension>
+   <extension
+         point="org.eclipse.ui.themes">
+      <colorDefinition
+            categoryId="org.eclipse.ui.presentation.default"
+            id="org.eclipse.e4.examples.css.rcp.mail.honeyDew"
+            isEditable="true"
+            label="Honey Dew"
+            value="240,255,240">
+      </colorDefinition>
+   </extension>
+
+</plugin>

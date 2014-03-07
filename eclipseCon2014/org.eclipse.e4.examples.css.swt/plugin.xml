@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Sample CSS Category"
+            id="org.eclipse.e4.examples.css.swt">
+      </category>
+      <view
+            name="Sample View with CSS"
+            icon="icons/sample.gif"
+            category="org.eclipse.e4.examples.css.swt"
+            class="org.eclipse.e4.examples.css.swt.views.SampleView"
+            id="org.eclipse.e4.examples.css.swt.views.SampleView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.e4.ui.css.swt.theme">
+      <theme
+            basestylesheeturi="css/css_swt.css"
+            id="org.eclipse.e4.examples.css.swt.with_tree"
+            label="GTK with tree">
+      </theme>
+   </extension>
+
+</plugin>
