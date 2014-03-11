@@ -25,9 +25,6 @@
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
 	</head>
 
 	<body>
@@ -38,7 +35,7 @@
 			<div class="slides">
 				<section>
 					<h1>Xtreme Eclipse4</h1>
-					<h3>A tutorial on advanced usages of the Eclipse4 platform</h1>
+					<h3>A tutorial on advanced usages of the Eclipse4 platform</h3>
 					<h3>Customizing dependency injection behavior with custom annotations</h3>
 					<p>
 						<small>Created by <a href="http://http://pweclipse.blogspot.com">Paul Webster</a> / <a href="http://twitter.com/paulweb515">@paulweb515</a></small>
@@ -59,7 +56,26 @@
 
 				<section>
 					<h2>Eclipse core.di Example</h2>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
+class TestClass {
+	@Inject
+	@Named("b") 
+	String bString;
+	
+	@Inject
+	public void setInfo(@Optional @Named("aConstructor") String aString,
+			@Named("bConstructor") String bString) {
+		aConstructorString = aString;
+		bConstructorString = bString;
+	}
+
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Eclipse core.di Example</h2>
+<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
 IEclipseContext localContext = EclipseContextFactory.create();
 localContext.set("b", "123"); // local values override
 localContext.set("bConstructor", "123Constructor");
@@ -84,7 +100,7 @@ TestClass testObject = ContextInjectionFactory.make(TestClass.class,
 		<script src="js/reveal.min.js"></script>
 
 		<script>
-
+		    /*global Reveal hljs*/
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({

@@ -20,8 +20,15 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_g6_QgJDYEeOitcD8MTrJqw" elementId="org.eclipse.e4.examples.di.product.handledmenuitem.loadWalrus" label="Load Walrus Polishing Kit" mnemonics="W" command="_RZKhYJDYEeOitcD8MTrJqw">
           <parameters xmi:id="_nFm_sJDYEeOitcD8MTrJqw" elementId="walrusPluginLocation" name="org.eclipse.e4.examples.di.product.pluginLocation" value="platform:/plugin/org.eclipse.e4.examples.di.product/dynamic/org.example.walrus.polishing"/>
         </children>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_dVDCgJGyEeOOJcq7EyvOdA" elementId="org.eclipse.e4.examples.di.product.handledmenuitem.loadWalrus" label="Load Apocalypse Starter Kit" mnemonics="A" command="_RZKhYJDYEeOitcD8MTrJqw">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_xkgRMKkmEeOP_r773e6vkw" elementId="org.eclipse.e4.examples.di.product.handledmenuitem.unloadWalrus" label="Unload Walrus Polishing Kit" command="_SaFSAKklEeOP_r773e6vkw">
+          <parameters xmi:id="_8Z8JsKkmEeOP_r773e6vkw" elementId="walrusPluginId" name="org.eclipse.e4.examples.di.product.pluginId" value="org.example.walrus.polishing"/>
+        </children>
+        <children xsi:type="menu:MenuSeparator" xmi:id="_yRhIMKkmEeOP_r773e6vkw" elementId="org.eclipse.e4.examples.di.product.menuseparator.0"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_dVDCgJGyEeOOJcq7EyvOdA" elementId="org.eclipse.e4.examples.di.product.handledmenuitem.loadStarterKit" label="Load Apocalypse Starter Kit" mnemonics="A" command="_RZKhYJDYEeOitcD8MTrJqw">
           <parameters xmi:id="_dVDCgZGyEeOOJcq7EyvOdA" elementId="apocalypsePluginLocation" name="org.eclipse.e4.examples.di.product.pluginLocation" value="platform:/plugin/org.eclipse.e4.examples.di.product/dynamic/org.example.apocalypse.starter.kit"/>
+        </children>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_FGb_wKknEeOP_r773e6vkw" elementId="org.eclipse.e4.examples.di.product.handledmenuitem.unloadStarterKit" label="Unload Apocalypse Starter Kit" command="_SaFSAKklEeOP_r773e6vkw">
+          <parameters xmi:id="_NnT0oKknEeOP_r773e6vkw" elementId="apocalypsePluginId" name="org.eclipse.e4.examples.di.product.pluginId" value="org.example.apocalypse.starter.kit"/>
         </children>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_JgyHYZDBEeOitcD8MTrJqw" label="Help">
@@ -40,6 +47,7 @@
   <handlers xmi:id="_JgyHV5DBEeOitcD8MTrJqw" elementId="org.eclipse.e4.examples.di.product.handler.saveCommand" contributionURI="bundleclass://org.eclipse.e4.examples.di.product/org.eclipse.e4.examples.di.product.handlers.SaveHandler" command="_JgyHVpDBEeOitcD8MTrJqw"/>
   <handlers xmi:id="_JgyHWpDBEeOitcD8MTrJqw" elementId="org.eclipse.e4.examples.di.product.handler.aboutCommand" contributionURI="bundleclass://org.eclipse.e4.examples.di.product/org.eclipse.e4.examples.di.product.handlers.AboutHandler" command="_JgyHWZDBEeOitcD8MTrJqw"/>
   <handlers xmi:id="_Eu-4UJDZEeOitcD8MTrJqw" elementId="org.eclipse.e4.examples.di.product.handler.0" contributionURI="bundleclass://org.eclipse.e4.examples.di.product/org.eclipse.e4.examples.di.product.handlers.LoadDynamicPluginHandler" command="_RZKhYJDYEeOitcD8MTrJqw"/>
+  <handlers xmi:id="_dKoDcKklEeOP_r773e6vkw" elementId="org.eclipse.e4.examples.di.product.handler.1" contributionURI="bundleclass://org.eclipse.e4.examples.di.product/org.eclipse.e4.examples.di.product.handlers.UnloadPluginHandler" command="_SaFSAKklEeOP_r773e6vkw"/>
   <bindingTables xmi:id="_JgyHUZDBEeOitcD8MTrJqw" bindingContext="_JgxgSZDBEeOitcD8MTrJqw">
     <bindings xmi:id="_JgyHUpDBEeOitcD8MTrJqw" keySequence="M1+Q" command="_JgxgTJDBEeOitcD8MTrJqw"/>
     <bindings xmi:id="_JgyHVZDBEeOitcD8MTrJqw" keySequence="M1+O" command="_JgyHU5DBEeOitcD8MTrJqw"/>
@@ -56,6 +64,9 @@
   <commands xmi:id="_JgyHWZDBEeOitcD8MTrJqw" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
   <commands xmi:id="_RZKhYJDYEeOitcD8MTrJqw" elementId="org.eclipse.e4.examples.di.product.loadBundle" commandName="Load Bundle">
     <parameters xmi:id="_VM_YUJDYEeOitcD8MTrJqw" elementId="org.eclipse.e4.examples.di.product.pluginLocation" name="Bundle Location" optional="false"/>
+  </commands>
+  <commands xmi:id="_SaFSAKklEeOP_r773e6vkw" elementId="org.eclipse.e4.examples.di.product.unloadBundle" commandName="Unload Bundle">
+    <parameters xmi:id="_SaFSAaklEeOP_r773e6vkw" elementId="org.eclipse.e4.examples.di.product.pluginId" name="Bundle ID" optional="false"/>
   </commands>
   <addons xmi:id="_JgxgQpDBEeOitcD8MTrJqw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_JgxgQ5DBEeOitcD8MTrJqw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>

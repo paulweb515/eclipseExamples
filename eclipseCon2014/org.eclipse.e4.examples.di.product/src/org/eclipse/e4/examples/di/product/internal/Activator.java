@@ -34,6 +34,10 @@ public class Activator extends Plugin {
 		bundles.add(b);
 	}
 
+	public void removeDynamicBundle(Bundle b) {
+		bundles.remove(b);
+	}
+
 	private void clearDynamicBundles() {
 		for (Bundle bundle : bundles) {
 			try {

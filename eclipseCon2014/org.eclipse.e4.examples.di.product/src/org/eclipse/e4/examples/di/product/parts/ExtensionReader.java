@@ -1,6 +1,9 @@
 package org.eclipse.e4.examples.di.product.parts;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PreDestroy;
@@ -22,6 +25,8 @@ public class ExtensionReader {
 	@Named("myViewer")
 	private TableViewer viewer;
 
+	private Map<IConfigurationElement, AuthorCompany> registryToCompany = new HashMap<IConfigurationElement, AuthorCompany>();
+
 	@Inject
 	@Optional
 	public void setExtensions(
@@ -33,16 +38,33 @@ public class ExtensionReader {
 		if (control.isDisposed()) {
 			return;
 		}
+
+		HashSet<IConfigurationElement> toRemove = new HashSet<IConfigurationElement>(
+				registryToCompany.keySet());
+		toRemove.removeAll(elements);
+		HashSet<IConfigurationElement> toAdd = new HashSet<IConfigurationElement>(
+				elements);
+		toAdd.removeAll(registryToCompany.keySet());
+
+		for (IConfigurationElement element : toAdd) {
+			if (SamplePart.ELEMENT_AUTHOR.equals(element.getName())) {
+				AuthorCompany contributor = new AuthorCompany(
+						element.getAttribute(SamplePart.ATTR_NAME),
+						element.getAttribute(SamplePart.ATTR_COMPANY));
+				registryToCompany.put(element, contributor);
+				authors.add(contributor);
+			}
+		}
+
+		for (IConfigurationElement element : toRemove) {
+			AuthorCompany contributor = registryToCompany.remove(element);
+			if (contributor != null) {
+				authors.remove(contributor);
+			}
+		}
 		control.getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				for (IConfigurationElement element : elements) {
-					if (SamplePart.ELEMENT_AUTHOR.equals(element.getName())) {
-						authors.add(new AuthorCompany(element
-								.getAttribute(SamplePart.ATTR_NAME), element
-								.getAttribute(SamplePart.ATTR_COMPANY)));
-					}
-				}
 				if (!viewer.getControl().isDisposed()) {
 					viewer.refresh();
 				}

@@ -1,5 +1,7 @@
 package org.eclipse.e4.examples.di.product.parts;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -17,6 +19,7 @@ public class OldExtensionReader implements IRegistryEventListener {
 	private TableViewer viewer;
 	private ServiceTracker<IExtensionRegistry, IExtensionRegistry> tracker;
 	private IExtensionRegistry extensionRegistry;
+	private Map<IConfigurationElement, AuthorCompany> registryToCompany = new HashMap<IConfigurationElement, AuthorCompany>();
 
 	public OldExtensionReader(Set<AuthorCompany> authors, TableViewer viewer) {
 		this.authors = authors;
@@ -48,30 +51,49 @@ public class OldExtensionReader implements IRegistryEventListener {
 		for (IConfigurationElement element : extension
 				.getConfigurationElements()) {
 			if (SamplePart.ELEMENT_AUTHOR.equals(element.getName())) {
-				authors.add(new AuthorCompany(element
-						.getAttribute(SamplePart.ATTR_NAME), element
-						.getAttribute(SamplePart.ATTR_COMPANY)));
+				AuthorCompany contributor = new AuthorCompany(
+						element.getAttribute(SamplePart.ATTR_NAME),
+						element.getAttribute(SamplePart.ATTR_COMPANY));
+				registryToCompany.put(element, contributor);
+				authors.add(contributor);
+			}
+		}
+	}
+
+	private void removeAuthors(IExtension extension) {
+		for (IConfigurationElement element : extension
+				.getConfigurationElements()) {
+			AuthorCompany contributor = registryToCompany.remove(element);
+			if (contributor != null) {
+				authors.remove(contributor);
 			}
 		}
 	}
 
 	@Override
 	public void added(final IExtension[] extensions) {
+		for (IExtension extension : extensions) {
+			addAuthors(extension);
+		}
 		viewer.getControl().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				for (IExtension extension : extensions) {
-					addAuthors(extension);
-				}
 				viewer.refresh();
 			}
 		});
 	}
 
 	@Override
-	public void removed(IExtension[] extensions) {
-		// TODO Auto-generated method stub
-
+	public void removed(final IExtension[] extensions) {
+		for (IExtension extension : extensions) {
+			removeAuthors(extension);
+		}
+		viewer.getControl().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				viewer.refresh();
+			}
+		});
 	}
 
 	@Override

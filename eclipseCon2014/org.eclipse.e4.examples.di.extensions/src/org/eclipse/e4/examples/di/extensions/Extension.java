@@ -8,8 +8,11 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+
 /**
- *
+ * This will inject the current valid list of {@link IConfigurationElement} for
+ * this extension point.
  */
 @Qualifier
 @Documented
