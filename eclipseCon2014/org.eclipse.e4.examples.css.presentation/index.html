@@ -59,8 +59,10 @@
 				</section>
 
 				<section>
-					<h3>What is the Styling Engine?</h3>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+					<h3>What is the Styling Engine?</h3> <!-- 
+					contenteditable
+					 -->
+<pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
 #org-eclipse-ui-editorss {
    swt-tab-renderer: url('org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
    swt-unselected-tabs-color: #D6DDE5 #D6DDE5 #D6DDE5 100% 100%;
@@ -77,7 +79,7 @@
 						Allows users to control the look of the UI based on selectors and prop values.
 						Selectors specify which widgets to apply to
 						prop values what you want styled in the widgets
-						We want a simpler mechanism to control the look adn feel of an eclipse application.
+						We want a simpler mechanism to control the look and feel of an eclipse application.
 						Make it easy to switch around the look of the app without  writing a lot of code.
 						Also mention: Although our implementation targets SWT widgets, the core
 						engine is headless and could be adapted.
@@ -90,7 +92,7 @@
 					<aside class="notes">
 						- Engine is created
 						- it's handed a stylesheet to parse
-						- engine creates the CSSParse, apache batik, and parses the style sheet
+						- engine creates the CSSParse, ours is apache batik, and parses the style sheet
 						- follows any import refs
 						- it hands back a bunch of CSSRules (CSSStyleRules) to the CSS Egnine
 						- each rule reps one style block.
@@ -98,7 +100,8 @@
 						- the CSS engine then gets all of the shells from the display
 						- it applyeStyles(Shell) on each one, that's where  the work is done
 						- example: All composites have 10px and background: red
-						- once the style decoration is calculated with all of the properties, the property handlers are called.
+						- once the style decoration is calculated with all of the properties, 
+						  the property handlers are called.
 						- property handlers know which SWT methods to call
 						
 					</aside>
@@ -112,11 +115,41 @@
 						<li>ID name {#PerspectiveSwitcher}</li>
 						<li>Model name {.MPartStack, .MTrimBar}</li>
 					</ul>
+					<aside class="notes">
+						- CSS allows you to select elements by type, class, or ID.
+						- For type, the CSS Engine figures out the rules based on the SWT Type.
+						- - you can style all instances of Shell
+						- You can set one or more class names on a widget.
+						- You can also set an ID, which must be unique.
+						- in addition, in the Eclipse4 world the SWT part renderer sets the model type
+						  and any tags as class names on the SWT widget
+						- You can use the classnames in your style sheet to target groups of SWT Widgets
+						- but why use class names instead of a type to style widgets?
+					</aside>
+
 				</section>
 
 				<section>
 					<h3>CSS Cascade</h3>
 					<img src="images/CSSCascades.png" alt="How CSS sheets cascade"/>
+					<aside class="notes">
+						- Because of the CSS cascade
+						- The concept of the cascade is important to the way styles are determined in CSS
+						- Styles are allowed to cascade down to an element from multiple sources.
+						  including xternal style sheets, inline style blocks, and element style declarations
+						- the cascade applies to the CSS Engine as well but it's a bit simplified since 
+						  all styles are specified in Style sheet the CSS engine itself has the capability 
+						  to apply inline styles but that API is not exposeed in the styling engine since 
+						  we were able to achieve our styling goals by just using style sheets.
+						- If you are writing style sheets for many different platforms you can take advantage
+						  of the cascade to group all of the common properties in one file, group all of the
+						  platform specific properties in another file, and include the common file in the platform
+						  specific file.
+						- This is what we do in the platform, with our e4_base CSS stylesheet that's then included
+						  in most of the other CSS style sheets.
+						- The CSS engine follows the CSS concept of specificity, which is used to determine
+						  which selector will get chosen in the case of multiple selectors that apply to one element.
+					</aside>
 				</section>
 
 				<section>
@@ -128,11 +161,24 @@
 						<li>Add them up for the specificity value</li>
 						<li>In case of a clash, higher specificty value wins</li>
 					</ul>
+					<aside class="notes">
+						- Specificity determines which CSS rules are applied by the styling engine
+						- each selector has a place in the specificity hierarchy
+						- if 2 selectors are applied to the same element, the one with the higher specificity wins
+						- Note: all properties that are only in one rule will get applied.  Specificity is a way
+						  to deal with properties that class between the 2 rules.
+					</aside>
 				</section>
 
 				<section>
 					<h3>Specificity Calculator</h3>
+					<p><a href="http://specificity.keegan.st/">http://specificity.keegan.st/</a></p>
 					<img src="images/SpecificityCalcluator.png" alt="Calculating values for yourself"/>
+					<aside class="notes">
+						- There are online specificity calculators for hard core web developers
+						- They will tell you the exact order of different selectors based on their specificity
+						- A good one is at the address above.
+					</aside>
 				</section>
 
 				<section>
@@ -179,6 +225,15 @@
 <td>Button { border-style: dotted }</td>
 </tr>
 </table>
+					<aside class="notes">
+						- Once you have the widget you want to style you need to be able to do something with it
+						- That's where property handlers come in
+						- Property handlers are a piece of code when it's time to map the CSS property to 
+						  the actual SWT call that will set the property on the widget
+						- Examples of CSS properties to SWT calls is available on our wiki
+						- Here are some examples for a Control
+						- These can be called on any instanceof Control.
+					</aside>
 				</section>
 
 				<section>
@@ -230,6 +285,9 @@
 <td>CTabFolder { swt-single: true }</td>
 </tr>
 </table>
+					<aside class="notes">
+						- CTabFolder has the most property handlers, to support SWT specific styling properties.
+					</aside>
 				</section>
 
 				<section>
@@ -257,21 +315,59 @@
 						<li>All code for the CSS engine can be found in one of the following packages:</li>
 						<li>org.eclipse.e4.ui.css.core</li>
 						<li>org.eclipse.e4.ui.css.swt</li>
-						<li>Add them up for the specificity value</li>
 						<li>org.eclipse.e4.ui.css.swt.theme</li>
 					</ul>
+					<aside class="notes">
+						- If you want to take a look at the CSS Engine code, our CSS support comes from these 3 plugins.
+					</aside>
 				</section>
 
 				<section>
 					<h3>CSS vs 3.x Themes</h3>
 					<img src="images/example3xThemes.png" alt="Different light and dark Eclipse 3.x themes"/>
+					<aside class="notes">
+						- 3.x themes are complimentary.
+						- allow you to style editor contents, decorators, foregrounds and backgrounds in a number of things
+						  content assist, and all of the 3.x swished tab coloring
+						- Also the java editor, text editor, and other editor coloring options
+						- some can also be styled in the CSS engine, but things like the java editor can't be styled by CSS
+					</aside>
 				</section>
 
 				<section>
 					<h3>Themes for your Application</h3>
 					<ul>
-						<li></li>
-					</ul>
+					    <li>Eclipse default themes are in <a href="http://git.eclipse.org/c/platform/eclipse.platform.ui.git/tree/bundles/org.eclipse.ui.themes">org.eclipse.ui.themes</a> plugin.</li>
+						<li>Themes are the way to organize style sheets for your application.</li>
+						<li>Themes are added using <code>org.eclipse.e4.ui.css.swt.theme</code> extension point.</li>
+					</ul><pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+&lt;theme
+   basestylesheeturi="css/e4_classic_winxp.css"
+   id="org.eclipse.e4.ui.css.theme.e4_classic"
+   label="%theme.classic"/&gt;
+</code></pre>
+					<ul>
+						<li>Theme properties have to be added to the product definition:</li>
+					</ul><pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+&lt;property
+   name="cssTheme"
+   value="org.eclipse.e4.ui.css.theme.e4_default"/&gt;
+&lt;property
+   name="applicationCSSResources"
+   value="platform:/plugin/org.eclipse.ui.themes/images/"/&gt;
+</code></pre>
+					<aside class="notes">
+						- This lists the default theme
+						- applicationCSSResources tells the engine where to go look for resource files, like images references in the style sheet
+						- when defining the theme itself, you need to define the label, ID, and base style URI
+						- there are 3 optionals properties.
+						- there's also OS, OS version, and WS (windowing system)
+						- if these extra properties are not there, then the engine assumes the theme is valid for the current platform
+						- you can have the same ID for multiple themes as long as they are differentiated by these 3 properties
+						- we use this to provide an OS specific default theme to the platform product we ship
+						- you can only provide one base URI in a theme, but that doesn't mean you can't use multiple style sheets in your theme
+						- import them at the beginning of your base style sheet
+					</aside>
 				</section>
 
 				<section>
@@ -279,11 +375,22 @@
 					<ul>
 						<li><a href="http://eclipsecolorthemes.org/">http://eclipsecolorthemes.org/</a></li>
 					</ul>
+					<aside class="notes">
+						- Roger Dudler is well known in the eclipse community.
+						- He has lots of 3.x color themes
+					</aside>
 				</section>
 
 				<section>
 					<h4>Roger's Themes</h4>
 					<img src="images/RogersThemes.png" alt="Downloadable themes for Eclipse"/>
+					<aside class="notes">
+						- He has lots of 3.x color themes, available for download
+						- When Juno came out he created a dark theme, called Dark Juno.
+						- potentially get a hold of the theme and show a pic
+						- it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
+						- show pick with open java editor.
+					</aside>
 				</section>
 
 				<section>
@@ -293,6 +400,10 @@
 						<li>Generate an Activator</li>
 						<li>No to 3.x rich client application</li>
 					</ul>
+					<aside class="notes">
+						- I'd like to emphasise how easy it is to create your own custom theme in 3 steps
+						- create a new eclipse plugin project
+					</aside>
 				</section>
 
 				<section>
@@ -300,7 +411,22 @@
 					<ul>
 						<li>Create a folder</li>
 						<li>Write a stylesheet</li>
-					</ul>
+					</ul><pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+.infoHeader {
+  background-color: #E2E2E2;
+}
+
+#org-eclipse-e4-examples-css-rcp-mail-view Composite {
+  background-color: #FAEBD7;
+}
+
+#org-eclipse-e4-examples-css-rcp-mail-navigationView Tree {
+  background-color: '#org-eclipse-e4-examples-css-rcp-mail-honeyDew';
+}
+</code></pre>
+					<aside class="notes">
+						- your theme can be as simple or involved as you wish
+					</aside>
 				</section>
 
 				<section>
@@ -308,14 +434,21 @@
 					<ul>
 						<li>Configure the plugin project</li>
 						<li>Fill out the extension point</li>
-					</ul>
-				</section>
-
-				<section>
-					<h3>Create a Theme - Step 4</h3>
-					<ul>
-						<li>Export as a Deployable plug-in and fragment</li>
-					</ul>
+					</ul><pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+&lt;extension
+      point="org.eclipse.e4.ui.css.swt.theme"&gt;
+   &lt;theme
+         basestylesheeturi="css/rcp_mail.css"
+         id="org.eclipse.e4.examples.css.rcp.mail"
+         label="RCP Mail CSS"/&gt;
+&lt;/extension&gt;
+</code></pre>
+					<aside class="notes">
+						- This makes it available in the prefs page
+						- note the quickest reset is to open a new window and close the old, but this only
+						  works well if you don't care about your perspectives or have saved custom perspectives
+						  that you can easily re-open.
+					</aside>
 				</section>
 
 				<section>
@@ -323,6 +456,11 @@
 					<ul>
 						<li><a href="https://github.com/jeeeyul/eclipse-themes/">https://github.com/jeeeyul/eclipse-themes/</a></li>
 					</ul>
+					<aside class="notes">
+						- This is an example of a community member using the Styling Engine.
+						- He put together the Chrome theme for Juno which is much more than a regular style sheet
+						- The Chrome plugin provides a UI which allows users to select their styling choices
+					</aside>
 				</section>
 
 				<section>
@@ -330,6 +468,10 @@
 					<ul>
 						<li>Able to view and add custom CSS</li>
 					</ul>
+					<aside class="notes">
+						- it creates and installs a style sheet based on those choices.
+						- the neat thing about the Chrome theme plugin is you can inspect the stylesheets and edit them yourself
+					</aside>
 				</section>
 
 				<section>
@@ -339,6 +481,11 @@
 						<li>Inspector</li>
 						<li>Editor (Orion based - coming soon)</li>
 					</ul>
+					<aside class="notes">
+						- Some tools that can help working on eclipse in the SDK
+						- The Inspector or CSS Spy, contributed by Brian de Alwis, is very handy
+						- We're working on a feature where the Orion editor is used for CSS editing.
+					</aside>
 				</section>
 
 				<section>
@@ -346,13 +493,23 @@
 					<ul>
 						<li>Able to view and add custom CSS</li>
 					</ul>
+					<aside class="notes">
+						- The XText based editor can be opened on CSS files or embedded in the Appearance pref page.
+						- you get some syntax highlighting, and probably the most useful is you get some content completion
+					</aside>
 				</section>
 
 				<section>
 					<h3>CSS Spy</h3>
 					<ul>
-						<li>Inspector</li>
+						<li>Shows the widget hierarchy</li>
+						<li>Shows the CSS properties</li>
+						<li>Shows the CSS status of the widget (classes, etc)</li>
 					</ul>
+					<aside class="notes">
+						- CSS spy is a dialog with 3 panels, one that shows the widget hierarchy, one that shows
+						  the CSS properties, and one that shows the CSS status of the widget (all of the rules applied)
+					</aside>
 				</section>
 
 				<section>
@@ -360,6 +517,11 @@
 					<ul>
 						<li>Modify CSS on the fly</li>
 					</ul>
+					<aside class="notes">
+						- Included with CSS Spy.
+						- Can be used to test out new CSS live
+						- open and click OK with no entries to put things back the way they were.
+					</aside>
 				</section>
 
 				<section>
@@ -397,6 +559,12 @@
 <tr><td>COLOR-TITLE-INACTIVE-BACKGROUND</td><td>System color used to paint inactive title background areas (value is 34).</td></tr>
 <tr><td>COLOR-TITLE-INACTIVE-BACKGROUND-GRADIENT</td><td>System color used to paint inactive title background gradient (value is 35).</td></tr>
 </table>
+					<aside class="notes">
+						- SWT provides access to some native system colors
+						- these are colors that often change when the OS theme changes
+						- if you base your CSS on these constants, you can be in sync with the OS
+						- you refer to these constants by name as IDs
+					</aside>
 				</section>
 
 				<section>
@@ -425,32 +593,6 @@
 					<ul>
 						<li>Able to view and add custom CSS</li>
 					</ul>
-				</section>
-
-				<section>
-					<h3>Eclipse core.di</h3>
-					<ol>
-						<li>Is tied to the runtime <code>IEclipseContext</code> hierarchy</li>
-						<li>Can access both data and services</li>
-						<li>As data changes the fields or methods are updated</li>
-						<li>DI is applied to POJOs instantiated by the system (Parts, Processors, Addons)</li>
-						<li><code>ContextInjectionFactory</code> can use DI to instantiate an object</li>
-						<li>DI shouldn't be used with handler objects</li>
-					</ol>
-				</section>
-
-				<section>
-					<h2>Eclipse core.di Example</h2>
-<pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
-IEclipseContext localContext = EclipseContextFactory.create();
-localContext.set("b", "123"); // local values override
-localContext.set("bConstructor", "123Constructor");
-localContext.set("c", "xyz");
-
-TestClass testObject = ContextInjectionFactory.make(TestClass.class,
-        parentContext, localContext);
-
-</code></pre>
 				</section>
 
 				<section>
