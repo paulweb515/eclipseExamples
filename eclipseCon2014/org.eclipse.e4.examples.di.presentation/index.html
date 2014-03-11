@@ -24,7 +24,16 @@
 		<script>
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
-
+		<style>
+			table.wikiTable {
+				font-size:75%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			table.wikiTable, table.wikiTable th, table.wikiTable td {
+				border: 1px solid white; 
+			}
+		</style>
 	</head>
 
 	<body>
@@ -38,37 +47,131 @@
 					<h3>A tutorial on advanced usages of the Eclipse4 platform</h3>
 					<h3>Customizing dependency injection behavior with custom annotations</h3>
 					<p>
-						<small>Created by <a href="http://http://pweclipse.blogspot.com">Paul Webster</a> / <a href="http://twitter.com/paulweb515">@paulweb515</a></small>
+						<small>Created by <a href="http://pweclipse.blogspot.com">Paul Webster</a> / <a href="http://twitter.com/paulweb515">@paulweb515</a></small>
 					</p>
 				</section>
 
 				<section>
-					<h2>Eclipse core.di</h2>
+					<h2>Eclipse Core DI</h2>
 					<ol>
-						<li>Is tied to the runtime <code>IEclipseContext</code> hierarchy</li>
-						<li>Can access both data and services</li>
-						<li>As data changes the fields or methods are updated</li>
-						<li>DI is applied to POJOs instantiated by the system (Parts, Processors, Addons)</li>
-						<li><code>ContextInjectionFactory</code> can use DI to instantiate an object</li>
-						<li>DI shouldn't be used with handler objects</li>
+						<li>Retrieves its information from the <code>IEclipseContext</code>.</li>
+						<li>Can access both data and services.</li>
+						<li>Keeps the fields and methods up to date as the data changes.</li>
+						<li>DI is applied to POJOs instantiated by the system (Parts, Processors, Addons).</li>
+						<li><code>ContextInjectionFactory</code> uses data in <code>IEclipseContext</code> to instantiate an object.</li>
 					</ol>
 				</section>
 
 				<section>
-					<h2>Eclipse core.di Example</h2>
+					<h3>Annotations</h3>
+<table class="wikiTable">
+<tr>
+<th>Annotation</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>@Inject</code></td>
+<td>Identifies injectable constructors, methods, and fields.</td>
+</tr>
+<tr>
+<td><code>@Named</code></td>
+<td>Specifies a String used to look up the injected value.</td>
+</tr>
+<tr>
+<td><code>@PostConstruct</code></td>
+<td>The PostConstruct annotation is used on a method that needs to be executed
+after dependency injection is done to perform any initialization.</td>
+</tr>
+<tr>
+<td><code>@PreDestroy</code></td>
+<td>The PreDestroy annotation is used on methods as a callback notification to 
+signal that the instance is in the process of being removed by the container.</td>
+</tr>
+<tr>
+<td><code>@Singleton</code></td>
+<td>Identifies a type that the injector only instantiates once.</td>
+</tr>
+</table>
+				</section>
+
+				<section>
+					<h3>Annotations - Eclipse Specific</h3>
+<table class="wikiTable">
+<tr>
+<th>Annotation</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>@Optional</code></td>
+<td>This annotation can be applied to methods, fields, and parameters to 
+ mark them as optional for the dependency injection.</td>
+</tr>
+<tr>
+<td><code>@Creatable</code></td>
+<td>Specifies that the target class can be created by an injector as needed.</td>
+</tr>
+<tr>
+<td><code>@Active</code></td>
+<td>This annotation can be added to injectable fields ands methods
+to indicate that the injected value should come from the active context.</td>
+</tr>
+</table>
+				</section>
+
+				<section>
+					<h2>Eclipse Contexts</h2>
+					<p>The source for our DI data and services.</p>
+					<ol>
+						<li>Look up the local value for that key.</li>
+						<li>If it's a regular result, return the result.</li>
+						<li>If it's an <code>IContextFunction</code> evaluate and return the result.</li>
+						<li>Ask the parent <code>IEclipseContext</code>.</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Annotations - Eclipse Extensions</h3>
+<table class="wikiTable">
+<tr>
+<th>Annotation</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>@Preference</code></td>
+<td>Access a preference value from <code>IEclipsePreferences</code>.</td>
+</tr>
+<tr>
+<td><code>@OSGiBundle</code></td>
+<td>Access the <code>Bundle</code> or <code>BundleContext</code> of the injected class.</td>
+</tr>
+</table>
+				</section>
+
+				<section>
+					<h2>Eclipse Core DI Example</h2>
 <pre><code data-trim style="font-size: 18px; margin-top: 20px;">
-class TestClass {
+@Qualifier
+@Documented
+@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Preference {
+	String value() default ""; // key in the node
+	String nodePath() default "";
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Eclipse Core DI Example</h2>
+<pre><code data-trim style="font-size: 16px; margin-top: 15px;">
+public class EclipseSplashHandler {
 	@Inject
-	@Named("b") 
-	String bString;
+	@Preference("SHOW_BUILDID_ON_STARTUP")
+	boolean showBuildId;
 	
 	@Inject
-	public void setInfo(@Optional @Named("aConstructor") String aString,
-			@Named("bConstructor") String bString) {
-		aConstructorString = aString;
-		bConstructorString = bString;
-	}
-
+	@Preference(nodePath="org.eclipse.ui", value="SHOW_PROGRESS_ON_STARTUP" )
+	boolean showProgress;
 }
 </code></pre>
 				</section>
