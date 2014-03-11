@@ -116,8 +116,8 @@ public class SamplePart {
 		ViewerComparator comparator = new ViewerComparator();
 		tableViewer.setComparator(comparator);
 
-		// createLegacyReader();
-		createDiReader();
+		createLegacyReader();
+		// createDiReader();
 
 		tableViewer.setInput(pluginAuthors);
 	}
