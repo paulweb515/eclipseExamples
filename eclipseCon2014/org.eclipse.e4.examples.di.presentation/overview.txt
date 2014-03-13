@@ -1,0 +1,102 @@
+Customizing dependency injection behaviour with custom annotations
+- I'm Paul, what is it I do here
+
+Eclipse Core DI
+- we support DI with our core contributions
+- our IEclipseContext hierarchy is our data source
+- IEclipseContext is tied to our runtime.  App, workbench window, part
+- we care that the objects and the data source is kept in sync
+- Objects can be instantiated
+- This part of the tutorial is about hooking up other data sources that don't fit in the workbench hierarchy
+
+Annotations
+- We support injection annotations from JSR 330
+- PostConstruct/PreDestroy come from JSR 250
+- Inject is the most important one
+- Named helps to determine what's injected
+
+Annotations - Eclipse Specific
+- extra annotations we found useful
+- Optional is commonly used, as it allows null to be passed in if the data is not available
+
+Eclipse Contexts
+- our datasource for our DI engine
+- has a pretty straight forward algorithm
+
+ContextInjectionFactory
+- when trying to resolve a field or an argument in a method
+- This is the lookup strategy
+- Provider<T> is part of JSR 330
+- The difference between step 3 and 4 is that 3 doesn't contribute to the tracking
+- IBinding is provided by eclipse
+- we care about step 2
+
+Annotations - Eclipse Extensions
+- we provide a couple of extensions in the SDK
+- here are 2
+- we're going to review one extension, @Preference and then create our own.
+
+
+ExtendedObjectSupplier
+- registering an OSGi service
+- specify which annotation matters
+- Let's look at the Preference
+
+@Preference
+- Target can be TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, PACKAGE, ANNOTATIO_TYPE
+- Retention can be source, class, or runtime
+- you can request one or more attributes.
+
+@Preference - Usage
+- Here's an example of it being used
+- One pref is from the current plugin
+- One pref is from a different plugin
+
+
+@Preference - Contributing
+- We usually use Declarative Services to contribute
+- The important parts are you specify the service you provide
+- you specify the implementation
+- you specify any properties
+- OSGi takes care of starting it up when it's needed
+- notice the property type is a String.
+
+
+@Preference - Implementation
+- extend ExtendedObjectSupplier and implement the get(*) method
+- Whenever an argument to a requestor needs to be resolved, this method will be called
+- descriptor contains information like the annotations available, and the return type
+- requestor represents the binding between the instance and the data
+- requestor is one specific slice.  i.e. filling in a Field, or a Method
+- track is requesting the the object supplier notify the requestor of a change
+- group says something about the notifications can be grouped, but I've never seen it used.
+
+@Preference - Implementation II
+- generally you'll use the descriptor to get the return type
+- use the descriptor to get extra information, like name, path, node, whatever
+- you'll use the requestor if you need info about the requesting object
+- i.e. in OSGiBundle we want the requesting object to decide which bundle to look up
+- here, we use it to get the bundle to use as the default node path.
+- you'll use the requestor if you are tracking the request and you need to notify of a change
+- usually in your change listener.
+
+Enhancing an RCP application
+- It's an Eclipse4 app, no workbench
+- It can dynamically load and unload plugins
+- It offers an extension point, so that contributing plugins can state their author/company information
+- I've provided the app with the old-style extension reader
+- I've provided a skeletal plugin to provide an extended object supplier
+
+Enhancing an RCP application - Run
+- github repo
+- the product bundle runs the app
+- the extension is hollowed out at the moment
+- launch the application from the .product file
+- quick demo
+
+Exercise
+- We're 
+
+
+
+

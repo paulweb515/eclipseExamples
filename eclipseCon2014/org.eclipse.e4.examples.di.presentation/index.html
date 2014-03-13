@@ -47,7 +47,9 @@
 					<h3>A tutorial on advanced usages of the Eclipse4 platform</h3>
 					<h3>Customizing dependency injection behavior with custom annotations</h3>
 					<p>
-						<small>Created by <a href="http://pweclipse.blogspot.com">Paul Webster</a> / <a href="http://twitter.com/paulweb515">@paulweb515</a></small>
+						<small><a href="http://pweclipse.blogspot.com">Paul Webster</a> / <a href="http://twitter.com/paulweb515">@paulweb515</a></small><br />
+						<small><a href="http://www.vogella.com/">Lars Vogel</a> / <a href="https://twitter.com/vogella">@vogella</a></small><br />
+						<small><a href="http://blog.vogella.com/author/smcela/">Sopot Çela</a> / <a href="https://twitter.com/smcela">@smcela</a></small>
 					</p>
 				</section>
 
@@ -130,6 +132,18 @@ to indicate that the injected value should come from the active context.</td>
 				</section>
 
 				<section>
+					<h2>ContextInjectionFactory</h2>
+					<ol>
+						<li>Check for a <code>Provider&lt;T&gt;</code></li>
+						<li>Check for an <code>ExtendedObjectSupplier</code></li>
+						<li>Check the static <code>IEclipseContext</code></li>
+						<li>Check the primary <code>IEclipseContext</code></li>
+						<li>Check for any registered <code>IBindings</code></li>
+						<li>Check to see if the type is <code>@Createable</code></li>
+					</ol>
+				</section>
+
+				<section>
 					<h3>Annotations - Eclipse Extensions</h3>
 <table class="wikiTable">
 <tr>
@@ -148,7 +162,16 @@ to indicate that the injected value should come from the active context.</td>
 				</section>
 
 				<section>
-					<h2>Eclipse Core DI Example</h2>
+					<h2>Extended Object Supplier</h2>
+					<ol>
+						<li>You need to register an OSGi service to provide <code>org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier</code></li>
+						<li>Your service needs to identify your annotation in a property <code>dependency.injection.annotation</code></li>
+						<li>Provide an implementation that extends <code>org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier</code></li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>@Preference</h2>
 <pre><code data-trim style="font-size: 18px; margin-top: 20px;">
 @Qualifier
 @Documented
@@ -162,7 +185,7 @@ public @interface Preference {
 				</section>
 
 				<section>
-					<h2>Eclipse Core DI Example</h2>
+					<h2>@Preference - Usage</h2>
 <pre><code data-trim style="font-size: 16px; margin-top: 15px;">
 public class EclipseSplashHandler {
 	@Inject
@@ -177,16 +200,93 @@ public class EclipseSplashHandler {
 				</section>
 
 				<section>
-					<h2>Eclipse core.di Example</h2>
-<pre><code data-trim style="font-size: 18px; margin-top: 20px;">
-IEclipseContext localContext = EclipseContextFactory.create();
-localContext.set("b", "123"); // local values override
-localContext.set("bConstructor", "123Constructor");
-localContext.set("c", "xyz");
+					<h2>@Preference - Contributing</h2>
+<pre><code data-trim style="font-size: 16px; margin-top: 15px;">
+&lt;scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
+      name="org.eclipse.e4.core.services.preferences"&gt;
+   &lt;implementation 
+      class="org.eclipse.e4.core.di.internal.extensions.PreferencesObjectSupplier"/&gt;
+   &lt;service&gt;
+      &lt;provide interface="org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier"/&gt;
+   &lt;/service&gt;
+   &lt;property name="dependency.injection.annotation" type="String" 
+      value="org.eclipse.e4.core.di.extensions.Preference"/&gt;
+&lt;/scr:component&gt;
+</code></pre>
+				</section>
 
-TestClass testObject = ContextInjectionFactory.make(TestClass.class,
-        parentContext, localContext);
+				<section>
+					<h2>@Preference - Implementation</h2>
+<table class="wikiTable">
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>descriptor</code></td>
+<td>descriptor of the object requested by the requestor.</td>
+</tr>
+<tr>
+<td><code>requestor</code></td>
+<td>the originator of this request.</td>
+</tr>
+<tr>
+<td><code>track</code></td>
+<td>If the object supplier should notify the requestor of a change to the returned object.</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td>If the change notification can be grouped.</td>
+</tr>
+</table>				</section>
 
+				<section>
+					<h2>@Preference - Implementation II</h2>
+<pre><code data-trim style="font-size: 16px; margin-top: 15px;">
+public Object get(IObjectDescriptor descriptor, IRequestor requestor, 
+        boolean track, boolean group) {
+    Class&lt;?&gt; descriptorsClass = getDesiredClass(descriptor.getDesiredType());
+    String nodePath = getNodePath(descriptor, requestor.getRequestingObjectClass());
+    String key = getKey(descriptor);
+    return getPreferencesService().getString(nodePath, key, null, null);
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Enhance an RCP application</h3>
+					<ol>
+						<li>This is an Eclipse4 application.</li>
+						<li>It dynamically loads and unloads plugins.</li>
+						<li>It provides an extension point so that plugins can state their author, company.</li>
+						<li>We want to consume the contributed extensions using DI.</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Enhance an RCP application - Run</h3>
+					<ol>
+						<li><a href="https://github.com/scela/EclipseCon2014">https://github.com/scela/EclipseCon2014</a></li>
+						<li>org.eclipse.e4.examples.di.product - the RCP application</li>
+						<li>org.eclipse.e4.examples.di.extensions - adds support for <code>@Extension</code></li>
+						<li>Open <code>/org.eclipse.e4.examples.di.product/org.eclipse.e4.examples.di.product.product</code> and choose
+						&quot;Launch an Eclipse Application&quot;</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Exercise</h3>
+					<ol>
+						<li>We're replacing <code>OldExtensionReader</code>, getting rid of the boilerplate code.</li>
+						<li>Replacing the calls to <code>process()</code>, <code>added(final IExtension[])</code>, and <code>removed(final IExtension[])</code>.</li>
+					</ol>
+<pre><code data-trim style="font-size: 16px; margin-top: 15px;">
+@Inject
+@Optional
+public void setExtensions(
+    final @Extension(SamplePart.EXTENSION_POINT) List&lt;IConfigurationElement&gt; elements) {
+    //... stuff
+}
 </code></pre>
 				</section>
 
