@@ -62,7 +62,7 @@
 					<h3>What is the Styling Engine?</h3> <!-- 
 					contenteditable
 					 -->
-<pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+<pre><code data-trim  style="font-size: 16px; margin-top: 15px;">
 #org-eclipse-ui-editorss {
    swt-tab-renderer: url('org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
    swt-unselected-tabs-color: #D6DDE5 #D6DDE5 #D6DDE5 100% 100%;
@@ -166,18 +166,7 @@
 						- each selector has a place in the specificity hierarchy
 						- if 2 selectors are applied to the same element, the one with the higher specificity wins
 						- Note: all properties that are only in one rule will get applied.  Specificity is a way
-						  to deal with properties that class between the 2 rules.
-					</aside>
-				</section>
-
-				<section>
-					<h3>Specificity Calculator</h3>
-					<p><a href="http://specificity.keegan.st/">http://specificity.keegan.st/</a></p>
-					<img src="images/SpecificityCalcluator.png" alt="Calculating values for yourself"/>
-					<aside class="notes">
-						- There are online specificity calculators for hard core web developers
-						- They will tell you the exact order of different selectors based on their specificity
-						- A good one is at the address above.
+						  to deal with properties that clash between the 2 rules.
 					</aside>
 				</section>
 
@@ -209,21 +198,6 @@
 <td>background-image</td>
 <td>Button { background-image: <i>some url</i> }</td>
 </tr>
-<tr>
-<td></td>
-<td>border-color</td>
-<td>Button { border-color: #FF0000; }</td>
-</tr>
-<tr>
-<td></td>
-<td>border-width</td>
-<td>Button { border-width: 3 }</td>
-</tr>
-<tr>
-<td></td>
-<td>border-style</td>
-<td>Button { border-style: dotted }</td>
-</tr>
 </table>
 					<aside class="notes">
 						- Once you have the widget you want to style you need to be able to do something with it
@@ -243,11 +217,6 @@
 <th>SWT Method</th>
 <th>CSS Property Name</th>
 <th>CSS Example</th>
-</tr>
-<tr>
-<td>setBorderVisible(boolean)</td>
-<td>border-visible</td>
-<td>CTabFolder { border-visible: true }</td>
 </tr>
 <tr>
 <td>setMaximized(boolean)</td>
@@ -323,18 +292,6 @@
 				</section>
 
 				<section>
-					<h3>CSS vs 3.x Themes</h3>
-					<img src="images/example3xThemes.png" alt="Different light and dark Eclipse 3.x themes"/>
-					<aside class="notes">
-						- 3.x themes are complimentary.
-						- allow you to style editor contents, decorators, foregrounds and backgrounds in a number of things
-						  content assist, and all of the 3.x swished tab coloring
-						- Also the java editor, text editor, and other editor coloring options
-						- some can also be styled in the CSS engine, but things like the java editor can't be styled by CSS
-					</aside>
-				</section>
-
-				<section>
 					<h3>Themes for your Application</h3>
 					<ul>
 					    <li>Eclipse default themes are in <a href="http://git.eclipse.org/c/platform/eclipse.platform.ui.git/tree/bundles/org.eclipse.ui.themes">org.eclipse.ui.themes</a> plugin.</li>
@@ -370,30 +327,7 @@
 					</aside>
 				</section>
 
-				<section>
-					<h3>Roger's Themes</h3>
-					<ul>
-						<li><a href="http://eclipsecolorthemes.org/">http://eclipsecolorthemes.org/</a></li>
-					</ul>
-					<aside class="notes">
-						- Roger Dudler is well known in the eclipse community.
-						- He has lots of 3.x color themes
-					</aside>
-				</section>
-
-				<section>
-					<h4>Roger's Themes</h4>
-					<img src="images/RogersThemes.png" alt="Downloadable themes for Eclipse"/>
-					<aside class="notes">
-						- He has lots of 3.x color themes, available for download
-						- When Juno came out he created a dark theme, called Dark Juno.
-						- potentially get a hold of the theme and show a pic
-						- it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
-						- show pick with open java editor.
-					</aside>
-				</section>
-
-				<section>
+								<section>
 					<h3>Create a Theme - Step 1</h3>
 					<ul>
 						<li>Create a new Eclipse Plugin Project</li>
@@ -411,7 +345,7 @@
 					<ul>
 						<li>Create a folder</li>
 						<li>Write a stylesheet</li>
-					</ul><pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+					</ul><pre><code data-trim  style="font-size: 16px; margin-top: 15px;">
 .infoHeader {
   background-color: #E2E2E2;
 }
@@ -443,11 +377,70 @@
          label="RCP Mail CSS"/&gt;
 &lt;/extension&gt;
 </code></pre>
+					<ul>
+						<li>Fill out product properties</li>
+					</ul><pre><code data-trim  style="font-size: 18px; margin-top: 20px;">
+&lt;property
+    name="cssTheme"
+    value="org.eclipse.e4.examples.css.rcp.mail"/&gt;
+&lt;property
+    name="applicationCSSResources"
+    value="platform:/plugin/org.eclipse.ui.themes/images/"/&gt;
+</code></pre>
 					<aside class="notes">
 						- This makes it available in the prefs page
 						- note the quickest reset is to open a new window and close the old, but this only
 						  works well if you don't care about your perspectives or have saved custom perspectives
 						  that you can easily re-open.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Some things that can be themed</h3>
+					<ul>
+						<li><code>.MTrimmedWindow.topLevel, .MTrimmedWindow</code> - the workbench window</li>
+						<li><code>.MTrimBar#org-eclipse-ui-main-toolbar, .MTrimBar</code> - the window trim</li>
+						<li><code>.MPartStack.active, .MPartStack</code> - view stacks</li>
+						<li><code>.MPart.highlighted, .MPart.busy, .MPart</code> - the tab of a view or editor</li>
+						<li><code>control.setData(CSSSWTConstants.CSS_CLASS_NAME_KEY, "infoHeader");</code> - custom target widgets</li>
+					</ul>
+					<aside class="notes">
+						- a small sampling of structures in the workbench that can be themed.
+					</aside>
+				</section>
+				
+				<section>
+					<h3>CSS vs 3.x Themes</h3>
+					<img src="images/example3xThemes.png" alt="Different light and dark Eclipse 3.x themes"/>
+					<aside class="notes">
+						- 3.x themes are complimentary.
+						- allow you to style editor contents, decorators, foregrounds and backgrounds in a number of things
+						  content assist, and all of the 3.x swished tab coloring
+						- Also the java editor, text editor, and other editor coloring options
+						- some can also be styled in the CSS engine, but things like the java editor can't be styled by CSS
+					</aside>
+				</section>
+
+				<section>
+					<h3>Roger's Themes</h3>
+					<ul>
+						<li><a href="http://eclipsecolorthemes.org/">http://eclipsecolorthemes.org/</a></li>
+					</ul>
+					<aside class="notes">
+						- Roger Dudler is well known in the eclipse community.
+						- He has lots of 3.x color themes
+					</aside>
+				</section>
+
+				<section>
+					<h4>Roger's Themes</h4>
+					<img src="images/RogersThemes.png" alt="Downloadable themes for Eclipse"/>
+					<aside class="notes">
+						- He has lots of 3.x color themes, available for download
+						- When Juno came out he created a dark theme, called Dark Juno.
+						- potentially get a hold of the theme and show a pic
+						- it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
+						- show pick with open java editor.
 					</aside>
 				</section>
 
@@ -473,6 +466,21 @@
 						- the neat thing about the Chrome theme plugin is you can inspect the stylesheets and edit them yourself
 					</aside>
 				</section>
+
+<!-- Not positioned yet -->
+
+				<section>
+					<h3>Specificity Calculator</h3>
+					<p><a href="http://specificity.keegan.st/">http://specificity.keegan.st/</a></p>
+					<img src="images/SpecificityCalcluator.png" alt="Calculating values for yourself"/>
+					<aside class="notes">
+						- There are online specificity calculators for hard core web developers
+						- They will tell you the exact order of different selectors based on their specificity
+						- A good one is at the address above.
+					</aside>
+				</section>
+
+
 
 				<section>
 					<h3>CSS Tools</h3>

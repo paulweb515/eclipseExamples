@@ -1,0 +1,132 @@
+CSS Styling
+- I'm Paul, Platform UI lead and committer for almost 10 years
+- I'd like to talk about in depth about the styling engine
+- - How the IDE makes use of the sytling engine
+- - How the styling engine translates CSS to SWT calls
+- I'd like to talk about hooking up your own CSS with your RCP app
+- I'd like to talk about how you can interface with the Color and Font themes
+- I'd like to talk about extending the engine yourself
+- I'd like to talk about some of the tools that can help with CSS
+- I'd like to talk about some things available from the community
+
+What is the styling engine?
+- it allows the user to control the look of the UI based on CSS
+- you define CSS rules.  
+- - The selectors determine when the rule is applied to each widget
+- - The properties specify what you want styled in the widget
+- this can be used to switch around the look of the Application without a lot of code changes
+- Also: while we provide SWT property handlers, the core engine is headless and could target other widget sets.
+
+Anatomy of a styling engine
+- Talk about parsing the style sheet
+- create CSSRules
+- get the shells from the display
+- apply styles to the shells and all of the widgets
+- once the properties for a widget are known, the SWT prop handlers are called
+- They call the correct SWT methods.
+
+Styling Selectors
+- selectors can be type, class, or ID
+- we allow the SWT type
+- we allow classes set on the widget
+- we allow an ID set on the widget.  The ID must be unique
+- in Eclipse4 and Luna, anything rendered from a model element gets the model type and tags added as classes
+
+CSS Cascade
+- controls how styles are determined for different rules
+- styles cascade down to each element from multiple sources
+- they come from external style sheets, inline style blocks, and element style declarations
+- Our styling engine can handle a cascade, including inline styles, but we don't expose any API to do it
+- We take advantage of the cascade to group all common styles in one style sheet, and include that in a platform specific style sheet
+- The Styling engine follows the CSS concept of specificity to determine which rule's property gets applied if there's a collision
+
+Specificity
+- CSS styles can cascade from multiple sources
+- The properties that are applied to a widget are the union of multiple style rules
+- CSS needs a way to deal with the same property coming from multiple rules.  That's specificity.
+- Each part of the selector is evaluated and weighted to give a specifity value
+- In the case of collision, the property from the rule with the higher specificity value is applied.
+- There are resources for this later.
+
+Property Handlers: Control
+- We have the style decorations from the rule(s)
+- We have the widget
+- we need to do something to the widget
+- that's where property handlers come in
+- the prop handler maps the property+value to the actual SWT call on the widget.
+- We have examples on our wiki pages.
+- Here are some on Control
+- They can be called on any instanceof Control
+
+Property Handlers: CTabFolder
+- has the most handlers to support SWT specific styling properties
+- i.e. swt-simple determines how the tabs are presented
+- i.e. swt-single can put it into single-tab mode, or unibrow as I like to call it
+
+Property Handlers: Label
+- It supports all of the properties for Control as well as it's own alignment
+- There are more examples of property-to-method mappings on the wiki
+
+Where is the code?
+- it's located in these 3 plugins
+- One is the core engine/parser
+- one provides the SWT property handlers
+- one provides managing style sheets as themes, loading them within eclipse
+
+Themes for your application
+- when defining the theme, you need a label, ID, and stylesheet
+- there are also 3 optional properties: ws, os, and os_version
+- themes without these properties are valid for all platforms
+- multiple themes can have the same ID as long as one or more of the properties are specified
+- This is the way to specify platform specific themes.
+- while you only provide one base style sheet in the extension, you can still use multiple style sheets
+- Include them at the beginning of your theme style sheet
+- applicationCSSResources tells the engine where to go look for resource files, like images references in the style sheet
+
+Create a Theme - step 1
+- It's not hard to contribute a theme with a style sheet into an existing Application
+- it takes 3 steps
+- create a plugin
+
+Create a Theme - step 2
+- write a style sheet
+- here I'm targetting different widgets by their type contained in their view ID
+- notice change the '.' to '-'
+- reference a color definition, more on that later
+
+Create a Theme - step 3
+- add the extension point.
+- If you control your RCP app, you can fill in the CSS properties in the product extension
+- the theme extension makes it available on the Appearance pref page
+- within the IDE, the quickest way to switch to the new theme is to use Window>New Window
+- this only works well if you don't care about your perspectives, or you've already saved them
+
+Some things that can be themed
+- Structurally within eclipse, here are some parts
+- you can target specific widgets with class or ID
+
+CSS vs 3.x themes
+- 3.x had the notion of themes
+- managed color and font definitions
+- contributions (views and editors) could allow look customization by publishing colors or fonts through these themes
+- changed their contents, plus things like decorators, content assist, etc
+
+Roger's themes
+- Roger Dudler is well known in the eclipse community. - He has lots of 3.x color themes
+
+Roger's themes
+He has lots of 3.x color themes, available for download
+- When Juno came out he created a dark theme, called Dark Juno.
+- potentially get a hold of the theme and show a pic
+- it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
+- show pick with open java editor.
+
+
+Jeeyul's Chrome theme
+- This is an example of a community member using the Styling Engine.
+- He put together the Chrome theme for Juno which is much more than a regular style sheet
+- The Chrome plugin provides a UI which allows users to select their styling choices
+- A great way to modify the preferences
+- can also be combined with 3.x themes.
+
+
