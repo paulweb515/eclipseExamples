@@ -285,6 +285,7 @@
 						<li>org.eclipse.e4.ui.css.core</li>
 						<li>org.eclipse.e4.ui.css.swt</li>
 						<li>org.eclipse.e4.ui.css.swt.theme</li>
+						<li>Git repo: <a href="http://git.eclipse.org/c/platform/eclipse.platform.ui.git/">http://git.eclipse.org/c/platform/eclipse.platform.ui.git/</a></li>
 					</ul>
 					<aside class="notes">
 						- If you want to take a look at the CSS Engine code, our CSS support comes from these 3 plugins.
@@ -396,6 +397,12 @@
 				</section>
 
 				<section>
+					<h3>Use the theme</h3>
+					<p><a href="https://github.com/paulweb515/eclipseExamples/tree/master/eclipseCon2014/org.eclipse.e4.examples.css.rcp.mail/">https://github.com/paulweb515/eclipseExamples/tree/master/eclipseCon2014/org.eclipse.e4.examples.css.rcp.mail/</a></p>
+					<img src="images/rcpThemedApp.png" alt="Calculating values for yourself"/>
+				</section>
+
+				<section>
 					<h3>Some things that can be themed</h3>
 					<ul>
 						<li><code>.MTrimmedWindow.topLevel, .MTrimmedWindow</code> - the workbench window</li>
@@ -409,136 +416,6 @@
 					</aside>
 				</section>
 				
-				<section>
-					<h3>CSS vs 3.x Themes</h3>
-					<img src="images/example3xThemes.png" alt="Different light and dark Eclipse 3.x themes"/>
-					<aside class="notes">
-						- 3.x themes are complimentary.
-						- allow you to style editor contents, decorators, foregrounds and backgrounds in a number of things
-						  content assist, and all of the 3.x swished tab coloring
-						- Also the java editor, text editor, and other editor coloring options
-						- some can also be styled in the CSS engine, but things like the java editor can't be styled by CSS
-					</aside>
-				</section>
-
-				<section>
-					<h3>Roger's Themes</h3>
-					<ul>
-						<li><a href="http://eclipsecolorthemes.org/">http://eclipsecolorthemes.org/</a></li>
-					</ul>
-					<aside class="notes">
-						- Roger Dudler is well known in the eclipse community.
-						- He has lots of 3.x color themes
-					</aside>
-				</section>
-
-				<section>
-					<h4>Roger's Themes</h4>
-					<img src="images/RogersThemes.png" alt="Downloadable themes for Eclipse"/>
-					<aside class="notes">
-						- He has lots of 3.x color themes, available for download
-						- When Juno came out he created a dark theme, called Dark Juno.
-						- potentially get a hold of the theme and show a pic
-						- it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
-						- show pick with open java editor.
-					</aside>
-				</section>
-
-				<section>
-					<h3>Jeeyul's Chrome Theme</h3>
-					<ul>
-						<li><a href="https://github.com/jeeeyul/eclipse-themes/">https://github.com/jeeeyul/eclipse-themes/</a></li>
-					</ul>
-					<aside class="notes">
-						- This is an example of a community member using the Styling Engine.
-						- He put together the Chrome theme for Juno which is much more than a regular style sheet
-						- The Chrome plugin provides a UI which allows users to select their styling choices
-					</aside>
-				</section>
-
-				<section>
-					<h3>Jeeyul's Chrome Theme</h3>
-					<ul>
-						<li>Able to view and add custom CSS</li>
-					</ul>
-					<aside class="notes">
-						- it creates and installs a style sheet based on those choices.
-						- the neat thing about the Chrome theme plugin is you can inspect the stylesheets and edit them yourself
-					</aside>
-				</section>
-
-<!-- Not positioned yet -->
-
-				<section>
-					<h3>Specificity Calculator</h3>
-					<p><a href="http://specificity.keegan.st/">http://specificity.keegan.st/</a></p>
-					<img src="images/SpecificityCalcluator.png" alt="Calculating values for yourself"/>
-					<aside class="notes">
-						- There are online specificity calculators for hard core web developers
-						- They will tell you the exact order of different selectors based on their specificity
-						- A good one is at the address above.
-					</aside>
-				</section>
-
-
-
-				<section>
-					<h3>CSS Tools</h3>
-					<ul>
-						<li>Editor (XText based)</li>
-						<li>Inspector</li>
-						<li>Editor (Orion based - coming soon)</li>
-					</ul>
-					<aside class="notes">
-						- Some tools that can help working on eclipse in the SDK
-						- The Inspector or CSS Spy, contributed by Brian de Alwis, is very handy
-						- We're working on a feature where the Orion editor is used for CSS editing.
-					</aside>
-				</section>
-
-				<section>
-					<h3>CSS File Editor</h3>
-					<ul>
-						<li>Able to view and add custom CSS</li>
-					</ul>
-					<aside class="notes">
-						- The XText based editor can be opened on CSS files or embedded in the Appearance pref page.
-						- you get some syntax highlighting, and probably the most useful is you get some content completion
-					</aside>
-				</section>
-
-				<section>
-					<h3>CSS Spy</h3>
-					<ul>
-						<li>Shows the widget hierarchy</li>
-						<li>Shows the CSS properties</li>
-						<li>Shows the CSS status of the widget (classes, etc)</li>
-					</ul>
-					<aside class="notes">
-						- CSS spy is a dialog with 3 panels, one that shows the widget hierarchy, one that shows
-						  the CSS properties, and one that shows the CSS status of the widget (all of the rules applied)
-					</aside>
-				</section>
-
-				<section>
-					<h3>CSS Scratchpad</h3>
-					<ul>
-						<li>Modify CSS on the fly</li>
-					</ul>
-					<aside class="notes">
-						- Included with CSS Spy.
-						- Can be used to test out new CSS live
-						- open and click OK with no entries to put things back the way they were.
-					</aside>
-				</section>
-
-				<section>
-					<h3>Styling in RCP</h3>
-					<ul>
-						<li>Able to view and add custom CSS</li>
-					</ul>
-				</section>
-
 				<section>
 					<h3>Native OS Colors</h3>
 					<p>Can be found as constants in the <code>org.eclipse.swt.SWT</code> class.</p>
@@ -555,7 +432,7 @@
 <tr><td>COLOR-WIDGET-BACKGROUND</td><td>System color used to paint background areas (value is 22).</td></tr>
 <tr><td>COLOR-WIDGET-BORDER</td><td>System color used to paint border areas (value is 23).</td></tr>
 <tr><td>COLOR-LIST-FOREGROUND</td><td>System color used to paint list foreground areas (value is 24).</td></tr>
-<tr><td>COLOR-LIST-BACKGROUND</td><td>System color used to paint list background areas (value is 25).</td></tr>
+<!--tr><td>COLOR-LIST-BACKGROUND</td><td>System color used to paint list background areas (value is 25).</td></tr>
 <tr><td>COLOR-LIST-SELECTION</td><td>System color used to paint list selection background areas (value is 26).</td></tr>
 <tr><td>COLOR-LIST-SELECTION-TEXT</td><td>System color used to paint list selected text (value is 27).</td></tr>
 <tr><td>COLOR-INFO-FOREGROUND</td><td>System color used to paint tooltip text (value is 28).</td></tr>
@@ -565,7 +442,7 @@
 <tr><td>COLOR-TITLE-BACKGROUND-GRADIENT</td><td>System color used to paint title background gradient (value is 32).</td></tr>
 <tr><td>COLOR-TITLE-INACTIVE-FOREGROUND</td><td>System color used to paint inactive title text (value is 33).</td></tr>
 <tr><td>COLOR-TITLE-INACTIVE-BACKGROUND</td><td>System color used to paint inactive title background areas (value is 34).</td></tr>
-<tr><td>COLOR-TITLE-INACTIVE-BACKGROUND-GRADIENT</td><td>System color used to paint inactive title background gradient (value is 35).</td></tr>
+<tr><td>COLOR-TITLE-INACTIVE-BACKGROUND-GRADIENT</td><td>System color used to paint inactive title background gradient (value is 35).</td></tr-->
 </table>
 					<aside class="notes">
 						- SWT provides access to some native system colors
@@ -576,30 +453,130 @@
 				</section>
 
 				<section>
-					<h3>Jeeyul's Chrome Theme</h3>
-					<ul>
-						<li>Able to view and add custom CSS</li>
-					</ul>
+					<h3>CSS vs 3.x Themes</h3>
+					<img src="images/example3xThemes.png" alt="Different light and dark Eclipse 3.x themes"/>
+					<aside class="notes">
+						- 3.x themes are complimentary.
+						- allow you to style editor contents, decorators, foregrounds and backgrounds in a number of things
+						  content assist, and all of the 3.x swished tab coloring
+						- Also the java editor, text editor, and other editor coloring options
+						- some can also be styled in the CSS engine, but things like the java editor can't be styled by CSS
+					</aside>
+				</section>
+
+				<section>
+					<h4>Roger's Themes</h4>
+					<p><a href="http://eclipsecolorthemes.org/">http://eclipsecolorthemes.org/</a></p>
+					<img src="images/RogersThemes2.png" alt="Downloadable themes for Eclipse"/>
+					<aside class="notes">
+						- He has lots of 3.x color themes, available for download
+						- When Juno came out he created a dark theme, called Dark Juno.
+						- potentially get a hold of the theme and show a pic
+						- it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
+						- show pick with open java editor.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Roger's Themes</h3>
+					<img src="images/darkPlusTheme.png" alt="Eclipse M6 with dark theme and color theme"/>
+					<aside class="notes">
+						- Roger Dudler is well known in the eclipse community.
+						- He has lots of 3.x color themes
+					</aside>
+				</section>
+
+				<section>
+					<h3>CSS with 3.x Themes</h3>
+					<p><a href="https://wiki.eclipse.org/Eclipse4/CSS/Bridge">https://wiki.eclipse.org/Eclipse4/CSS/Bridge</a></p>
+<pre><code data-trim  style="font-size: 16px; margin-top: 15px;">
+.MPartStack.active.noFocus {
+    swt-selected-tab-fill: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START' 
+        '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END' 100% 100%;
+    font-family: '#org-eclipse-ui-workbench-TAB_TEXT_FONT';
+}
+</code></pre>
 				</section>
 
 				<section>
 					<h3>Jeeyul's Chrome Theme</h3>
+					<p><a href="https://github.com/jeeeyul/eclipse-themes/">https://github.com/jeeeyul/eclipse-themes/</a></p>
+					<img src="images/jeeyulTheme.png" alt="Eclipse with Hello Kitty"/>
+				</section>
+
+
+				<section>
+					<h3>CSS Tools</h3>
 					<ul>
-						<li>Able to view and add custom CSS</li>
+						<li>E4 CSS Spy (Incubation)</li>
+						<li>Specificity Calculator</li>
+						<li>E4 Orion CSS Preference editor (Incubation)</li>
 					</ul>
+					<aside class="notes">
+						- Some tools that can help working on eclipse in the SDK
+						- The Inspector or CSS Spy, contributed by Brian de Alwis, is very handy
+						- We're working on a feature where the Orion editor is used for CSS editing.
+					</aside>
 				</section>
 
 				<section>
-					<h3>Jeeyul's Chrome Theme</h3>
-					<ul>
-						<li>Able to view and add custom CSS</li>
-					</ul>
+					<h3>CSS Spy</h3>
+					<p>Use <code>ALT+SHIFT+F5</code> to activate it.</p>
+					<img src="images/rcpWithRedBox.png" alt="RCP app with tree widget surrounded by red box."/>
+					<aside class="notes">
+						- CSS spy is a dialog with 3 panels, one that shows the widget hierarchy, one that shows
+						  the CSS properties, and one that shows the CSS status of the widget (all of the rules applied)
+					</aside>
 				</section>
 
 				<section>
-					<h3>Jeeyul's Chrome Theme</h3>
+					<h3>CSS Spy</h3>
+					<img src="images/CSSSpy.png" alt="RCP app with tree widget surrounded by red box."/>
+					<aside class="notes">
+						- CSS spy is a dialog with 3 panels, one that shows the widget hierarchy, one that shows
+						  the CSS properties, and one that shows the CSS status of the widget (all of the rules applied)
+					</aside>
+				</section>
+
+				<section>
+					<h3>CSS Scratchpad</h3>
+					<p>Use <code>ALT+SHIFT+F6</code> to activate it.</p>
+					<img src="images/CSSScratchPad.png" alt="Scratch pad dialog with CSS."/>
+					<aside class="notes">
+						- Included with CSS Spy.
+						- Can be used to test out new CSS live
+						- open and click OK with no entries to put things back the way they were.
+					</aside>
+				</section>
+
+				<section>
+					<h3>CSS Scratchpad</h3>
+					<img src="images/rcpWithScratchPad.png" alt="RCP with scratch CSS applied."/>
+				</section>
+
+				<section>
+					<h3>Specificity Calculator</h3>
+					<p><a href="http://specificity.keegan.st/">http://specificity.keegan.st/</a></p>
+					<img src="images/SpecificityCalcluator.png" alt="Calculating values for yourself"/>
+					<aside class="notes">
+						- There are online specificity calculators for hard core web developers
+						- They will tell you the exact order of different selectors based on their specificity
+						- A good one is at the address above.
+					</aside>
+				</section>
+
+				<section>
+					<h3>CSS File Editor</h3>
+					<p>Orion based editor</p>
+					<img src="images/CSSEditorPrefs.png" alt="Orion Embedded in Appearance page"/>
+				</section>
+
+				<section>
+					<h3>Resources</h3>
 					<ul>
-						<li>Able to view and add custom CSS</li>
+						<li><a href="https://wiki.eclipse.org/Eclipse4/CSS">https://wiki.eclipse.org/Eclipse4/CSS</a></li>
+						<li>0.16 E4 I-build site: <a href="http://download.eclipse.org/e4/updates/0.16-I-builds">http://download.eclipse.org/e4/updates/0.16-I-builds</a></li>
+						<li>E4 forum - <a href="https://www.eclipse.org/forums/index.php/f/12/">https://www.eclipse.org/forums/index.php/f/12/</a></li>
 					</ul>
 				</section>
 

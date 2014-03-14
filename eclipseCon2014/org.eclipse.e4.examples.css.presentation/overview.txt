@@ -82,6 +82,7 @@ Themes for your application
 - while you only provide one base style sheet in the extension, you can still use multiple style sheets
 - Include them at the beginning of your theme style sheet
 - applicationCSSResources tells the engine where to go look for resource files, like images references in the style sheet
+- it can be specified on the command line or as a system property (-D) as well
 
 Create a Theme - step 1
 - It's not hard to contribute a theme with a style sheet into an existing Application
@@ -101,9 +102,19 @@ Create a Theme - step 3
 - within the IDE, the quickest way to switch to the new theme is to use Window>New Window
 - this only works well if you don't care about your perspectives, or you've already saved them
 
+Use the theme
+- targetted specific widgets.
+
+
 Some things that can be themed
 - Structurally within eclipse, here are some parts
 - you can target specific widgets with class or ID
+
+Native OS colors
+- SWT provides access to some native system colors
+- these are colors that often change when the OS theme changes
+- if you base your CSS on these constants, you can be in sync with the OS
+- you refer to these constants by name as IDs, with - instead of _
 
 CSS vs 3.x themes
 - 3.x had the notion of themes
@@ -113,20 +124,66 @@ CSS vs 3.x themes
 
 Roger's themes
 - Roger Dudler is well known in the eclipse community. - He has lots of 3.x color themes
-
-Roger's themes
-He has lots of 3.x color themes, available for download
 - When Juno came out he created a dark theme, called Dark Juno.
 - potentially get a hold of the theme and show a pic
+
+Roger's themes
 - it's possible to combine this theme with some of the other themes on the eclipsecolorthemes site
 - show pick with open java editor.
+
+CSS with 3.x themes
+- This applies for the IDE and any 3.x based RCP apps on Luna
+- you can use color and font definitions by ID
+- consistent with existing color and font themes
+- the Appearance preference page changes will be picked up by the CSS
+- you can also create color and font defs in the CSS and they'll be picked up by the pref pag
+- because the CSS and color and fonts are complimentary, you can create an association
 
 
 Jeeyul's Chrome theme
 - This is an example of a community member using the Styling Engine.
 - He put together the Chrome theme for Juno which is much more than a regular style sheet
+- it comes with presets - this is Hello Kitty, but there are others :-)
 - The Chrome plugin provides a UI which allows users to select their styling choices
-- A great way to modify the preferences
+- A great way to modify the workbench controlled presentation.
 - can also be combined with 3.x themes.
+- When they moved from 1.x to 2.x they haven't put the Show CSS option back.
+
+CSS Tools
+- Some tools that can help working on eclipse in the SDK or RCP apps
+- Specificity calculator for fiddling with the CSS rules
+- The Inspector or CSS Spy, contributed by Brian de Alwis, is very handy
+- We're working on a feature where the Orion editor is used for CSS editing.
+
+
+CSS Spy
+- Allows you to see the CSS on a widget by widget basis
+- Shows the widget hierarchy
+- Shows the CSS properties
+- Shows the CSS rules as calculated by the engine
+
+CSS Spy
+- talk about what you can and can't see
+
+CSS Scratch Pad
+- CSS is in the other window.
+- Included with CSS Spy.
+- Can be used to test out new CSS live
+- open and click OK with no entries to put things back the way they were.
+
+Specificity Calculator
+- There are online specificity calculators for hard core web developers
+- They will tell you the exact order of different selectors based on their specificity
+- The one I use is there, but there are a few
+
+CSS File Editor
+- Embeds the Orion web based editor
+- some syntax highlighting
+- some property name completion, especially for swt-* properties
+
+
+
+
+
 
 
