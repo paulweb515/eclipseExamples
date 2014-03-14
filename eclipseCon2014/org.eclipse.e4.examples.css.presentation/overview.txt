@@ -180,6 +180,8 @@ CSS File Editor
 - Embeds the Orion web based editor
 - some syntax highlighting
 - some property name completion, especially for swt-* properties
+- mention the XText based one in Juno, Orion based one for Kepler
+- best version is the current one in e4 0.16
 
 
 

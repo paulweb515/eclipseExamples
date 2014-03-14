@@ -17,6 +17,9 @@
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/default.css" id="theme">
 
+		<!-- include this for print-to-pdf -->
+		<!--link rel="stylesheet" href="css/print/pdf.css" id="theme2"-->
+
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
@@ -404,13 +407,23 @@
 
 				<section>
 					<h3>Some things that can be themed</h3>
-					<ul>
-						<li><code>.MTrimmedWindow.topLevel, .MTrimmedWindow</code> - the workbench window</li>
-						<li><code>.MTrimBar#org-eclipse-ui-main-toolbar, .MTrimBar</code> - the window trim</li>
-						<li><code>.MPartStack.active, .MPartStack</code> - view stacks</li>
-						<li><code>.MPart.highlighted, .MPart.busy, .MPart</code> - the tab of a view or editor</li>
-						<li><code>control.setData(CSSSWTConstants.CSS_CLASS_NAME_KEY, "infoHeader");</code> - custom target widgets</li>
-					</ul>
+					<p>Workbench elements through the CSS</p><pre><code data-trim  style="font-size: 16px; margin-top: 15px;">
+.MTrimmedWindow, .MTrimBar, .MPartStack, .MPart {
+  // the workbench window, window trim, view stack, and view tab
+}
+
+.MPartStack.active, .MPart.highlighted, .MPart.busy {
+  // perspective elements with dynamic classes
+}
+
+.MTrimBar#org-eclipse-ui-main-toolbar,
+#org-eclipse-e4-examples-css-rcp-mail-navigationView {
+  // elements with a specific ID, views, editors, etc
+}
+</code></pre>
+					<p>Specific widgets</p><pre><code data-trim  style="font-size: 16px; margin-top: 15px;">
+control.setData(CSSSWTConstants.CSS_CLASS_NAME_KEY, "infoHeader");
+</code></pre>
 					<aside class="notes">
 						- a small sampling of structures in the workbench that can be themed.
 					</aside>
