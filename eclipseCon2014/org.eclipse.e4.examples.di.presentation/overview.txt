@@ -87,7 +87,7 @@ Enhancing an RCP application
 - I've provided the app with the old-style extension reader
 - I've provided a skeletal plugin to provide an extended object supplier
 
-Enhancing an RCP application - Run
+Enhancing an RCP application - 1.1
 - github repo
 - the product bundle runs the app
 - the extension is hollowed out at the moment
