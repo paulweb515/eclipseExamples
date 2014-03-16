@@ -34,6 +34,7 @@ ContextInjectionFactory
 Annotations - Eclipse Extensions
 - we provide a couple of extensions in the SDK
 - here are 2
+- Preferences is the example where you don't want to put them all in the context.
 - we're going to review one extension, @Preference and then create our own.
 
 
