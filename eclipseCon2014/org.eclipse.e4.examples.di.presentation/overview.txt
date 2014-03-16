@@ -94,8 +94,6 @@ Enhancing an RCP application - 1.1
 - launch the application from the .product file
 - quick demo
 
-Exercise
-- We're 
 
 
 
