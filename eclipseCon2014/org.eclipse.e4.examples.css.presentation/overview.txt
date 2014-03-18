@@ -4,13 +4,14 @@ CSS Styling
 - - How the IDE makes use of the sytling engine
 - - How the styling engine translates CSS to SWT calls
 - I'd like to talk about hooking up your own CSS with your RCP app
-- I'd like to talk about how you can interface with the Color and Font themes
 - I'd like to talk about extending the engine yourself
-- I'd like to talk about some of the tools that can help with CSS
+- I'd like to talk about how you can interface with the Color and Font themes
 - I'd like to talk about some things available from the community
+- I'd like to talk about some of the tools that can help with CSS
 
 What is the styling engine?
 - it allows the user to control the look of the UI based on CSS
+- How many of you have seen CSS?  Written some?
 - you define CSS rules.  
 - - The selectors determine when the rule is applied to each widget
 - - The properties specify what you want styled in the widget
@@ -37,8 +38,10 @@ CSS Cascade
 - styles cascade down to each element from multiple sources
 - they come from external style sheets, inline style blocks, and element style declarations
 - Our styling engine can handle a cascade, including inline styles, but we don't expose any API to do it
-- We take advantage of the cascade to group all common styles in one style sheet, and include that in a platform specific style sheet
-- The Styling engine follows the CSS concept of specificity to determine which rule's property gets applied if there's a collision
+- We take advantage of the cascade to group all common styles in one style sheet, and include that in a 
+  platform specific style sheet
+- The Styling engine follows the CSS concept of specificity to determine which rule's property gets applied 
+  if there's a collision
 
 Specificity
 - CSS styles can cascade from multiple sources
@@ -81,7 +84,8 @@ Themes for your application
 - This is the way to specify platform specific themes.
 - while you only provide one base style sheet in the extension, you can still use multiple style sheets
 - Include them at the beginning of your theme style sheet
-- applicationCSSResources tells the engine where to go look for resource files, like images references in the style sheet
+- applicationCSSResources tells the engine where to go look for resource files, like images references in 
+  the style sheet
 - it can be specified on the command line or as a system property (-D) as well
 
 Create a Theme - step 1
@@ -119,7 +123,8 @@ Native OS colors
 CSS vs 3.x themes
 - 3.x had the notion of themes
 - managed color and font definitions
-- contributions (views and editors) could allow look customization by publishing colors or fonts through these themes
+- contributions (views and editors) could allow look customization by publishing colors or fonts through 
+  these themes
 - changed their contents, plus things like decorators, content assist, etc
 
 Roger's themes
