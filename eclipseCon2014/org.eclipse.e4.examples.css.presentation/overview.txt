@@ -1,7 +1,7 @@
 CSS Styling
 - I'm Paul, Platform UI lead and committer for almost 10 years
 - I'd like to talk about in depth about the styling engine
-- - How the IDE makes use of the sytling engine
+- - How the IDE makes use of the styling engine
 - - How the styling engine translates CSS to SWT calls
 - I'd like to talk about hooking up your own CSS with your RCP app
 - I'd like to talk about extending the engine yourself
