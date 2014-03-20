@@ -18,6 +18,7 @@
          </property>
       </product>
    </extension>
+   <!-- TODO 1.1.1 plugin extension contributions -->
    <extension
          point="org.eclipse.e4.examples.di.product.authors">
       <author

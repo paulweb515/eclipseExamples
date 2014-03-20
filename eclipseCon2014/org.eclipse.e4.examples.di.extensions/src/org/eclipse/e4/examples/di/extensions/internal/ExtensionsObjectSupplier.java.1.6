@@ -1,0 +1,167 @@
+/*******************************************************************************
+ * Copyright (c) 2014 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.e4.examples.di.extensions.internal;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.inject.Inject;
+
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IRegistryEventListener;
+import org.eclipse.e4.core.di.InjectionException;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier;
+import org.eclipse.e4.core.di.suppliers.IObjectDescriptor;
+import org.eclipse.e4.core.di.suppliers.IRequestor;
+import org.eclipse.e4.examples.di.extensions.Extension;
+
+// TODO 1.2.1 Provide the extension object supplier
+// TODO 1.2.2 Provide this implementation as an OSGi Service
+// TODO 1.2.3 Open the file /org.eclipse.e4.examples.di.extensions/OSGI-INF/extensions.xml
+// TODO 1.2.4 Provide the service, implementation, and property
+// TODO 1.2.5 Open the file /org.eclipse.e4.examples.di.extensions/META-INF/MANIFEST.MF
+// TODO 1.2.6 Add the Service-Component header
+public class ExtensionsObjectSupplier extends ExtendedObjectSupplier {
+
+	// TODO 1.4 Return the currently valid IConfigurationElements
+	// TODO 1.4.1 get the IExtensionRegistry
+	@Inject
+	private IExtensionRegistry registry;
+
+	@Override
+	public Object get(IObjectDescriptor descriptor, IRequestor requestor,
+			boolean track, boolean group) {
+
+		final Class<?> desiredType = getDesiredClass(descriptor
+				.getDesiredType());
+		// We will pass through a list
+		if (List.class.isAssignableFrom(desiredType)) {
+			// TODO 1.4.2 get the annotation information
+			Extension qualifier = descriptor.getQualifier(Extension.class);
+			String extensionPointId = qualifier.value();
+			if (extensionPointId == null || extensionPointId.isEmpty()) {
+				throw new InjectionException(
+						"Failed to specify an extension point");
+			}
+			// TODO 1.5 track the extension point
+			if (track) {
+				addExtensionPointListener(extensionPointId, requestor);
+			}
+			// TODO 1.4.3 return the extension point information
+			IExtensionPoint extensionPoint = registry
+					.getExtensionPoint(extensionPointId);
+			if (extensionPoint != null) {
+				return Arrays.asList(extensionPoint.getConfigurationElements());
+			}
+			// TODO 1.4.5 handle the request for optional information
+			else if (descriptor.getQualifier(Optional.class) != null) {
+				return null;
+			}
+			// TODO 1.4.4 throw an exception if it can't be satisfied
+			throw new InjectionException("Failed to find Extension Point: "
+					+ extensionPointId);
+		}
+
+		// Annotation used with unsupported type
+		return null;
+	}
+
+	// TODO 1.5.1 add a registry listener
+	// TODO 1.5.2 save the requestor info
+	// TODO 1.5.2 re-evalute the requestor
+	// TODO 1.5.3 if the requestor is no longer valid, remove the listener
+	private class RegistryListener implements IRegistryEventListener {
+		IRequestor requestor;
+
+		public RegistryListener(IRequestor r) {
+			requestor = r;
+		}
+
+		private void removeListener() {
+			registry.removeListener(this);
+			Set<RegistryListener> listeners = requestors.remove(requestor);
+			if (listeners != null) {
+				for (RegistryListener listener : listeners) {
+					registry.removeListener(listener);
+				}
+			}
+		}
+
+		@Override
+		public void added(IExtension[] extensions) {
+			if (!requestor.isValid()) {
+				removeListener();
+				return;
+			}
+			requestor.resolveArguments(false);
+			requestor.execute();
+		}
+
+		@Override
+		public void removed(IExtension[] extensions) {
+			if (!requestor.isValid()) {
+				removeListener();
+				return;
+			}
+			requestor.resolveArguments(false);
+			requestor.execute();
+		}
+
+		@Override
+		public void added(IExtensionPoint[] extensionPoints) {
+			// this is a no-op
+		}
+
+		@Override
+		public void removed(IExtensionPoint[] extensionPoints) {
+			// this is a no-op
+		}
+	}
+
+	// TODO 1.6 remove all listeners for a requestor
+	private Map<IRequestor, Set<RegistryListener>> requestors = new HashMap<IRequestor, Set<RegistryListener>>();
+
+	private void addExtensionPointListener(String extensionPoint,
+			IRequestor requestor) {
+		// TODO 1.5.4 Add the registry listener
+		RegistryListener listener = new RegistryListener(requestor);
+		registry.addListener(listener, extensionPoint);
+
+		// TODO 1.6.1 store the listeners for a requestor
+		Set<RegistryListener> listeners = requestors.get(requestor);
+		if (listeners == null) {
+			listeners = new HashSet<ExtensionsObjectSupplier.RegistryListener>();
+			requestors.put(requestor, listeners);
+		}
+		listeners.add(listener);
+		// TODO 1.6.2 remote the listeners in removeListener()
+	}
+
+	private Class<?> getDesiredClass(Type desiredType) {
+		if (desiredType instanceof Class<?>)
+			return (Class<?>) desiredType;
+		if (desiredType instanceof ParameterizedType) {
+			Type rawType = ((ParameterizedType) desiredType).getRawType();
+			if (rawType instanceof Class<?>)
+				return (Class<?>) rawType;
+		}
+		return null;
+	}
+}

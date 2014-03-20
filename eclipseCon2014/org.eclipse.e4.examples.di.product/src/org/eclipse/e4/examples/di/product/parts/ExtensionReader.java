@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.e4.examples.di.product.parts;
 
 import java.util.HashMap;
@@ -27,6 +37,8 @@ public class ExtensionReader {
 
 	private Map<IConfigurationElement, AuthorCompany> registryToCompany = new HashMap<IConfigurationElement, AuthorCompany>();
 
+	// TODO 1.3.1 the extended object supplier should provide all current
+	// extensions
 	@Inject
 	@Optional
 	public void setExtensions(
