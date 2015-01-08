@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.example.cmd.feature_1.0.0.qualifier.jar" id="com.example.cmd.feature" version="1.0.0.qualifier">
+      <category name="com.examples.cmd.category"/>
+   </feature>
+   <category-def name="com.examples.cmd.category" label="Example Commands"/>
+</site>

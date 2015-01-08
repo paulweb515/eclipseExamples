@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="com.example.cmd.commands.category"
+            defaultHandler="com.example.call.cmd.handlers.AnotherCommandHandler"
+            id="com.example.call.cmd.anotherCommand"
+            name="Another Command">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:com.example.cmd.menus.sampleMenu?after=com.example.cmd.menus.sampleCommand">
+         <command
+               commandId="com.example.call.cmd.anotherCommand"
+               mnemonic="A"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>

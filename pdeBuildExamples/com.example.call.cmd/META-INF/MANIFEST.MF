@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Call Commands
+Bundle-SymbolicName: com.example.call.cmd;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.example.call.cmd.Activator
+Bundle-Vendor: IBM Examples
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.expressions;bundle-version="3.4.600"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy

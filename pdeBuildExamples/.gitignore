@@ -1,0 +1,6 @@
+/com.example.cmd.releng/buildDirectory/
+/com.example.call.cmd/target/
+/com.example.cmd.feature/target/
+/com.example.cmd/target/
+/com.example.cmd.update/target/
+build.sh

@@ -1,0 +1,12 @@
+<project name="Publish plugins" default="publish">
+<property name="one" value=""/>
+
+<target name="publish">
+<eclipse.publish.featuresAndBundles repository="file:${dir}/repo" category="file:${dir}/category.xml">
+<features dir="${dir}/artifacts" includes="com.example.cmd.feature_1.0.0.201501071624.jar"/>
+<bundles dir="${dir}/artifacts" includes="com.example.cmd_1.0.0.201501071624.jar"/>
+<bundles dir="${dir}/artifacts" includes="com.example.call.cmd_1.0.0.201501071624.jar"/>
+</eclipse.publish.featuresAndBundles>
+</target>
+</project>
+
